@@ -70,3 +70,20 @@ git push
 ```
 
 Die `.gitignore` lässt nur die Webseite ins Repo. Alles andere bleibt lokal.
+
+## Hosting und Domain (Stand 09.11.2026)
+
+- **Repo:** https://github.com/Setsna/lernlagune (öffentlich). Pages läuft aus dem Branch `main`, Ordner `/`.
+- **Domain:** `lernlagune.de` liegt bei netcup (CCP → Domains → lernlagune.de → CloudDNS).
+- **DNS-Einträge** (TTL 3600):
+
+| Name | Typ | Ziel |
+|---|---|---|
+| @ | A | 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 |
+| @ | AAAA | 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153, 2606:50c0:8003::153 |
+| www | CNAME | setsna.github.io. |
+
+- `www.lernlagune.de` leitet automatisch auf `lernlagune.de` um.
+- Das HTTPS-Zertifikat stellt GitHub automatisch aus und verlängert es selbst. „Enforce HTTPS“ ist in den Pages-Einstellungen eingeschaltet.
+- Andere DNS-Einträge (z. B. für E-Mail) gibt es nicht. Wer später welche ergänzt, lässt die Einträge oben unverändert.
+- Die Plattformen KI-Korallenriff und Perlentaucher laufen unabhängig in eigenen Repos unter `setsna.github.io`. Diese Seite verlinkt sie nur.
