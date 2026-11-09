@@ -4,6 +4,7 @@ Startseite für lernlagune.de. Von hier aus kommen die Kinder zu den Lernplattfo
 
 - Reines HTML, CSS und JavaScript, ohne Framework, Build-Schritt oder Abhängigkeiten.
 - Keine Cookies, kein Tracking, keine fremden Skripte oder Schriften. Alles liegt im Projekt.
+- Nicht in Suchmaschinen: `<meta name="robots" content="noindex, nofollow">` in `index.html`, wie bei den beiden Plattformen. Bewusst keine `robots.txt` mit Sperre, sonst könnten Suchmaschinen das noindex gar nicht lesen.
 - Gestaltung und Designsystem: siehe `DESIGN.md`.
 
 ## Lokal ansehen

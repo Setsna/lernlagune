@@ -39,6 +39,7 @@ fremd = re.findall(r'<(?:script|link)[^>]+(?:src|href)="(https?:[^"]+)"', html)
 (fehlt if fremd else ok)('fremde Quellen: ' + (', '.join(fremd) or 'keine'))
 (ok if 'Content-Security-Policy' in html else fehlt)('Content-Security-Policy gesetzt')
 (ok if 'no-referrer' in html else fehlt)('Referrer wird nicht weitergegeben')
+(ok if re.search(r'<meta name="robots" content="noindex, nofollow">', html) else fehlt)('Suchmaschinen ausgesperrt (noindex, nofollow)')
 js = (WURZEL / 'js' / 'lagune.js').read_text(encoding='utf-8')
 (ok if "noopener noreferrer" in js else fehlt)('externe Links mit noopener noreferrer')
 for wort in ('localStorage', 'document.cookie', 'fetch(', 'XMLHttpRequest'):
