@@ -1,0 +1,631 @@
+/* Lernlagune – Startseite
+ * Maßstab: Der Entwurf ist 1088 px breit (iPad hoch). --s rechnet jede Entwurfs-
+ * Angabe auf die echte Breite um: calc(<px im Entwurf> * var(--s)).
+ */
+
+@font-face {
+  font-family: 'Libre Caslon Text';
+  src: url('../assets/fonts/libre-caslon-text.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Andika';
+  src: url('../assets/fonts/andika-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Andika';
+  src: url('../assets/fonts/andika-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --breite: 100vw;         /* JS setzt die echte Breite ohne Scrollleiste */
+  --s: calc(min(var(--breite), 1088px) / 1088);
+
+  /* Farben aus dem Entwurf */
+  --tiefe: #0e2f45;          /* tiefes Wasser, Seitengrund */
+  --navy: #0b3155;           /* Schrift im Licht */
+  --navy-weich: #133c5a;
+  --weiss: #ffffff;
+  --glas-kante: rgba(255, 255, 255, 0.5);
+  --glas-glanz: rgba(255, 255, 255, 0.62);
+  --glas-oben: rgba(214, 242, 252, 0.13);
+  --glas-unten: rgba(40, 110, 150, 0.06);
+  --glas-schatten: rgba(3, 20, 35, 0.38);
+
+  --serif: 'Libre Caslon Text', Georgia, 'Times New Roman', serif;
+  --sans: 'Andika', 'Trebuchet MS', system-ui, sans-serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-color: rgba(255, 255, 255, 0.35) var(--tiefe);
+}
+
+body {
+  margin: 0;
+  background: var(--tiefe);
+  color: var(--weiss);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(127, 212, 230, 0.45);
+  color: var(--weiss);
+}
+
+.symbole {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ── Lagune: der gemalte Grund ─────────────────────────── */
+.lagune {
+  position: relative;
+  isolation: isolate;
+  /* Ersatz-Lagune, falls das Hintergrundbild (noch) nicht geladen ist:
+     hell oben, damit die Navy-Schrift immer lesbar bleibt. */
+  background-color: #cfe7ee;
+  background-image: linear-gradient(180deg, #e6f2ef 0%, #a9d4e1 30%, #3f86a8 62%, #12425f 100%);
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  padding-bottom: calc(110 * var(--s));
+}
+
+.lagune__wasser,
+.lagune__wasser img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lagune__wasser {
+  z-index: -1;
+}
+
+.lagune__wasser img {
+  object-fit: cover;
+  object-position: 50% 0;
+}
+
+/* ── Bewegung: atmendes Licht und wenige Blasen ───────────
+   Nur opacity und transform, damit auch alte iPads flüssig bleiben. */
+.licht,
+.blasen {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Der Lichtschacht über der Überschrift atmet langsam. */
+.licht {
+  top: 0;
+  left: 50%;
+  width: calc(760 * var(--s));
+  /* endet über den Glasfenstern: deren Unschärfe muss nicht jedes Bild neu rechnen */
+  height: calc(var(--licht-hoehe, 470) * var(--s));
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse 38% 60% at 50% 0%,
+    rgba(255, 252, 235, 0.42),
+    rgba(220, 244, 250, 0.16) 55%,
+    transparent 78%
+  );
+  opacity: 0.55;
+  animation: licht-atmen 11s ease-in-out infinite alternate;
+}
+
+@keyframes licht-atmen {
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1.08);
+  }
+}
+
+/* Blasen nur an den Rändern und immer hinter Text und Fenstern */
+.blasen {
+  inset: 0 0 auto;
+  height: 100vh;
+  height: 100svh;
+}
+
+.blasen span {
+  position: absolute;
+  bottom: 0;
+  width: calc(14 * var(--s));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(235, 250, 255, 0.55);
+  background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.7) 0 14%, rgba(200, 238, 250, 0.08) 40%, transparent 70%);
+  opacity: 0;
+  animation: blase-steigt 18s linear infinite;
+}
+
+.blasen span:nth-child(1) { left: 0.8%; animation-duration: 17s; animation-delay: -2s; }
+.blasen span:nth-child(2) { left: 2.2%; width: calc(9 * var(--s));  animation-duration: 22s; animation-delay: -11s; }
+.blasen span:nth-child(3) { left: 3.4%; width: calc(6 * var(--s));  animation-duration: 15s; animation-delay: -7s; }
+.blasen span:nth-child(4) { right: 0.8%; width: calc(11 * var(--s)); animation-duration: 20s; animation-delay: -4s; }
+.blasen span:nth-child(5) { right: 2.4%; width: calc(7 * var(--s));  animation-duration: 16s; animation-delay: -13s; }
+.blasen span:nth-child(6) { right: 3.4%; width: calc(9 * var(--s)); animation-duration: 24s; animation-delay: -18s; }
+
+.lagune--ruht .licht,
+.lagune--ruht .blasen span {
+  animation-play-state: paused;
+}
+
+@keyframes blase-steigt {
+  0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translate3d(calc(10 * var(--s)), -50vh, 0); }
+  85%  { opacity: 0.7; }
+  100% { transform: translate3d(calc(-6 * var(--s)), -100vh, 0); opacity: 0; }
+}
+
+/* ── Kopf: Wortmarke im Licht ──────────────────────────── */
+.kopf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(136 * var(--s));
+}
+
+.wortmarke {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: calc(31 * var(--s));
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+.welle {
+  width: min(62px, calc(80 * var(--s)));
+  height: calc(18 * var(--s));
+  margin-top: calc(2 * var(--s));
+  fill: none;
+  stroke: #2d6f98;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+/* ── Frage und Hinweis ─────────────────────────────────── */
+.inhalt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.frage {
+  margin: calc(18 * var(--s)) 0 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: calc(89 * var(--s));
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  text-wrap: balance;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Heller, ruhiger Lichthof: die Navy-Schrift bleibt auch über
+   mittelblauem Wasser lesbar (Querformat, Whiteboard). */
+.frage::before {
+  content: '';
+  position: absolute;
+  inset: -30% -20%;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(228, 243, 245, 0.88), rgba(228, 243, 245, 0.5) 60%, transparent);
+  pointer-events: none;
+}
+
+.hinweis {
+  margin: calc(26 * var(--s)) 0 0;
+  font-size: calc(27 * var(--s));
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--navy-weich);
+}
+
+/* ── Stationen: Glasfenster im Bogen ───────────────────── */
+.stationen {
+  list-style: none;
+  margin: calc(28 * var(--s)) 0 0;
+  /* schmaler Rand als Reserve, falls --breite noch 100vw ist und eine Scrollleiste
+     (Windows) das zweite Fenster sonst in eine neue Zeile schieben würde */
+  padding: 0 calc(24 * var(--s));
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  column-gap: calc(90 * var(--s));
+  row-gap: calc(60 * var(--s));
+}
+
+.station {
+  width: calc(445 * var(--s));
+}
+
+/* Hochformat: Platzhalter in eigener Reihe unter dem Bogen */
+.stationen__umbruch {
+  flex-basis: 100%;
+  height: 0;
+  order: 1;
+}
+
+.station--bald {
+  order: 2;
+}
+
+.fenster {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  aspect-ratio: 445 / 565;
+  padding: calc(70 * var(--s)) calc(20 * var(--s)) 0;
+  border-radius: calc(108 * var(--s));
+  overflow: hidden;
+  color: var(--weiss);
+  text-decoration: none;
+  text-align: center;
+  /* unten dunkleres Glas: dort laufen die Stationsbilder aus */
+  background: linear-gradient(180deg, var(--glas-oben), var(--glas-unten) 55%, rgba(8, 42, 70, 0.42));
+  border: 2px solid var(--glas-kante);
+  box-shadow:
+    inset 0 2px 0 var(--glas-glanz),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.16),
+    inset 0 0 calc(22 * var(--s)) rgba(200, 240, 255, 0.38),
+    0 26px 50px -10px var(--glas-schatten);
+  -webkit-backdrop-filter: blur(6px) saturate(140%);
+  backdrop-filter: blur(6px) saturate(140%);
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+}
+
+.fenster__name {
+  font-family: var(--serif);
+  font-size: calc(50 * var(--s));
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  text-shadow: 0 1px 3px rgba(4, 30, 50, 0.45);
+}
+
+.fenster__linie {
+  position: relative;
+  width: 58%;
+  height: 1px;
+  margin: calc(16 * var(--s)) 0 calc(14 * var(--s));
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+}
+
+.fenster__linie::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(8 * var(--s));
+  height: calc(8 * var(--s));
+  border-radius: 50%;
+  /* Akzentfarbe der Station (js/plattformen.js): leuchtender Punkt auf der Linie */
+  background: var(--akzent, var(--weiss));
+  box-shadow: 0 0 calc(10 * var(--s)) var(--akzent, transparent);
+  transform: translate(-50%, -50%);
+}
+
+.fenster__text {
+  font-size: calc(25 * var(--s));
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 3px rgba(4, 30, 50, 0.55);
+}
+
+.fenster__bild {
+  position: absolute;
+  inset: auto 0 calc(var(--bild-unten, 70) * var(--s)) 0;
+  z-index: -1;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40%, #000 90%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 40%, #000 90%, transparent);
+}
+
+.fenster__bild img {
+  display: block;
+  /* Bild in seinem eigenen Format, unten im Fenster: nichts wird abgeschnitten. */
+  width: 100%;
+  height: auto;
+}
+
+.fenster {
+  isolation: isolate;
+}
+
+/* Lesbarkeit: leichte Tiefe hinter Name und Text, auch unter dem hellen Lichtschacht */
+.fenster:not(.fenster--bald)::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 52%;
+  z-index: -2;
+  background: linear-gradient(to bottom, rgba(6, 38, 66, 0.42), rgba(6, 38, 66, 0.18) 60%, transparent);
+  pointer-events: none;
+}
+
+.fenster__knopf {
+  position: absolute;
+  left: 50%;
+  bottom: calc(36 * var(--s));
+  display: grid;
+  place-items: center;
+  width: max(48px, calc(84 * var(--s)));
+  height: max(48px, calc(84 * var(--s)));
+  border-radius: 50%;
+  background: var(--weiss);
+  box-shadow:
+    0 0 calc(22 * var(--s)) rgba(255, 255, 255, 0.5),
+    0 10px 22px -6px rgba(3, 20, 35, 0.5);
+  transform: translateX(-50%);
+  transition: transform 220ms var(--ease);
+}
+
+.fenster__pfeil {
+  width: 44%;
+  height: 44%;
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Rückmeldung beim Tippen (funktioniert ohne Hover) */
+a.fenster:active {
+  transform: scale(0.975);
+}
+
+a.fenster:active .fenster__knopf {
+  transform: translateX(-50%) scale(0.92);
+}
+
+/* Der Pfeil zeigt beim Tippen: los geht's */
+.fenster__pfeil {
+  transition: transform 160ms var(--ease);
+}
+
+a.fenster:active .fenster__pfeil {
+  transform: translateX(12%);
+}
+
+@media (hover: hover) {
+  a.fenster:hover {
+    transform: translateY(calc(-6 * var(--s)));
+    box-shadow:
+      inset 0 2px 0 var(--glas-glanz),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+      inset 0 -18px 40px rgba(190, 235, 250, 0.14),
+      0 34px 60px -12px var(--glas-schatten);
+  }
+}
+
+a.fenster:focus-visible {
+  outline: 3px solid var(--weiss);
+  outline-offset: 6px;
+}
+
+/* ── Platzhalter: kleines, nebliges Fenster ────────────── */
+.station--bald {
+  width: calc(292 * var(--s));
+  margin-top: calc(-46 * var(--s));
+  transform: none;
+}
+
+.fenster--bald {
+  aspect-ratio: 292 / 305;
+  justify-content: center;
+  padding: 0;
+  border-radius: calc(80 * var(--s));
+  background: linear-gradient(180deg, rgba(10, 52, 84, 0.7), rgba(10, 52, 84, 0.58));
+  -webkit-backdrop-filter: blur(5px) saturate(120%);
+  backdrop-filter: blur(5px) saturate(120%);
+}
+
+.fenster--bald .fenster__text {
+  font-size: max(15px, calc(20 * var(--s)));
+  line-height: 1.25;
+}
+
+.fenster__schloss {
+  width: calc(40 * var(--s));
+  height: calc(54 * var(--s));
+  margin-bottom: calc(18 * var(--s));
+  fill: none;
+  stroke: var(--weiss);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
+/* Ohne JavaScript: einfache Linkliste */
+.stationen--einfach a {
+  color: var(--weiss);
+  font-size: 1.4rem;
+}
+
+/* ── Querformat: iPad quer, Laptop, Whiteboard ───────────
+ * Alles soll ohne Scrollen sichtbar sein: Maßstab richtet sich nach der Höhe.
+ * Der Platzhalter sitzt tief in der Mitte des Bogens, unter dem Lichtschacht. */
+@media (orientation: landscape) and (min-width: 820px) {
+  :root {
+    --s: min(calc(100svh / 1010), calc(var(--breite) / 1360));
+  }
+
+  .kopf {
+    padding-top: calc(64 * var(--s));
+  }
+
+  :root {
+    --licht-hoehe: 330;
+  }
+
+  .frage {
+    margin-top: calc(26 * var(--s));
+    font-size: calc(80 * var(--s));
+  }
+
+  .frage br {
+    display: none;
+  }
+
+  .hinweis {
+    margin-top: calc(18 * var(--s));
+  }
+
+  .stationen {
+    margin-top: calc(40 * var(--s));
+    flex-wrap: wrap;
+    column-gap: calc(60 * var(--s));
+  }
+
+  /* Zwei Stationen: Platzhalter tief in der Mitte des Bogens.
+     Mehr Stationen: weitere Fenster in tieferen Reihen, Platzhalter ganz unten. */
+  .stationen:not(.stationen--viele) .stationen__umbruch {
+    display: none;
+  }
+
+  .stationen:not(.stationen--viele) .station--bald {
+    order: 0;
+    margin-top: calc(240 * var(--s));
+  }
+
+  .station:not(.station--bald) {
+    /* Bogen: äußere Fenster höher, innere tiefer */
+    transform: none;
+  }
+}
+
+/* ── Handy hochkant ────────────────────────────────────── */
+@media (max-width: 640px) and (orientation: portrait) {
+  :root {
+    --s: calc(var(--breite) / 600);
+  }
+
+  .kopf {
+    padding-top: calc(96 * var(--s));
+  }
+
+  .frage {
+    font-size: calc(84 * var(--s));
+  }
+
+  .hinweis {
+    font-size: calc(30 * var(--s));
+  }
+
+  .stationen {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    row-gap: calc(44 * var(--s));
+    margin-top: calc(48 * var(--s));
+    padding: 0 calc(36 * var(--s));
+  }
+
+  .station {
+    width: 100%;
+    max-width: 440px;
+    transform: none;
+  }
+
+  .fenster {
+    aspect-ratio: 528 / 610;
+    padding-top: calc(56 * var(--s));
+    border-radius: calc(96 * var(--s));
+  }
+
+  .fenster__name {
+    font-size: calc(58 * var(--s));
+  }
+
+  .fenster__text {
+    font-size: calc(30 * var(--s));
+  }
+
+  .station--bald {
+    width: calc(300 * var(--s));
+    margin-top: 0;
+  }
+
+  .fenster--bald .fenster__text {
+    font-size: max(15px, calc(22 * var(--s)));
+  }
+}
+
+/* ── Handy quer: niedrige Höhe, zwei Fenster nebeneinander ── */
+@media (orientation: landscape) and (max-height: 520px) and (max-width: 1000px) {
+  :root {
+    --s: min(calc(var(--breite) / 1200), calc(100svh / 640));
+  }
+
+  .kopf {
+    padding-top: calc(40 * var(--s));
+  }
+
+  .frage {
+    font-size: calc(70 * var(--s));
+  }
+
+  .frage br {
+    display: none;
+  }
+
+  .stationen:not(.stationen--viele) .stationen__umbruch {
+    display: none;
+  }
+
+  .stationen:not(.stationen--viele) .station--bald {
+    order: 0;
+    margin-top: calc(200 * var(--s));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fenster,
+  .fenster__knopf {
+    transition: none;
+  }
+  a.fenster:hover {
+    transform: none;
+  }
+  /* Licht bleibt sichtbar, steht aber still; Blasen entfallen. */
+  .licht {
+    animation: none;
+    opacity: 0.8;
+  }
+  .blasen {
+    display: none;
+  }
+}

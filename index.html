@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#0e2f45">
+  <title>Lernlagune</title>
+  <meta name="description" content="Die Lernlagune: Startpunkt zu den Lernplattformen KI-Korallenriff und Perlentaucher.">
+  <link rel="preload" href="assets/fonts/libre-caslon-text.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/andika-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/lagune.css">
+  <script type="module" src="js/lagune.js"></script>
+</head>
+<body>
+  <div class="lagune">
+    <picture class="lagune__wasser" aria-hidden="true">
+      <source srcset="assets/plates/lagune.webp" type="image/webp">
+      <img src="assets/plates/lagune.png" alt="" width="1632" height="2184" fetchpriority="high">
+    </picture>
+    <div class="licht" aria-hidden="true"></div>
+    <div class="blasen" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <header class="kopf">
+      <p class="wortmarke">Lernlagune</p>
+      <svg class="welle" viewBox="0 0 60 10" aria-hidden="true" focusable="false">
+        <path d="M1 6c6-4 12-4 18 0s12 4 18 0 13-4 22-1M11 9c5-2 10-2 15 0s10 2 16 0" />
+      </svg>
+    </header>
+
+    <main class="inhalt">
+      <h1 class="frage">Wohin tauchst<br> du heute?</h1>
+      <p class="hinweis">Tippe auf eine Station und tauch los.</p>
+
+      <ul class="stationen" id="stationen" aria-label="Stationen">
+        <!-- Wird aus js/plattformen.js gebaut. Ohne JavaScript gilt die Liste unten. -->
+      </ul>
+
+      <noscript>
+        <ul class="stationen stationen--einfach">
+          <li><a href="https://setsna.github.io/ki-korallenriff/">KI-Korallenriff</a></li>
+          <li><a href="https://setsna.github.io/perlentaucher/">Perlentaucher</a></li>
+        </ul>
+      </noscript>
+    </main>
+  </div>
+
+  <svg class="symbole" aria-hidden="true" focusable="false">
+    <symbol id="pfeil" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" /></symbol>
+    <symbol id="schloss" viewBox="0 0 24 32">
+      <rect x="3" y="14" width="18" height="15" rx="3.5" />
+      <path d="M7 14v-4a5 5 0 0 1 10 0v4" />
+      <circle cx="12" cy="20.5" r="1.6" />
+      <path d="M12 22v3" />
+      <path d="M12 2.2v1.6M6.5 4.2l.9 1.2M17.5 4.2l-.9 1.2" class="funkeln" />
+    </symbol>
+  </svg>
+</body>
+</html>

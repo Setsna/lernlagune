@@ -1,0 +1,15 @@
+# Nur die Webseite gehört ins Repo. Alles andere (Entwürfe, Notizen,
+# Originale, Werkzeuge) bleibt lokal.
+/*
+!/.gitignore
+!/index.html
+!/css/
+!/js/
+!/assets/
+!/README.md
+!/DESIGN.md
+!/tests/
+!/CNAME
+!/.nojekyll
+assets/**/*.txt
+!assets/fonts/*.txt
