@@ -525,6 +525,12 @@ a.fenster:focus-visible {
     /* Bogen: äußere Fenster höher, innere tiefer */
     transform: none;
   }
+
+  /* Ab drei Stationen: alles in den Fenstern etwas kleiner, damit drei
+     nebeneinander passen (3 × 445 + 2 × 60 + Rand ≈ 1520) */
+  .stationen--viele {
+    --s: min(calc(100svh / 1010), calc(var(--breite) / 1520));
+  }
 }
 
 /* ── Handy hochkant ────────────────────────────────────── */

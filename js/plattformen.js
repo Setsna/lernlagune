@@ -48,6 +48,21 @@ export const plattformen = [
     status: 'live',
   },
   {
+    id: 'riff-akten',
+    name: 'Riff-Akten',
+    beschreibung: 'Kriminalfälle lösen',
+    url: 'https://setsna.github.io/riff-akten/',
+    bild: {
+      webp: 'assets/stationen/riff-akten.webp',
+      png: 'assets/stationen/riff-akten.png',
+      alt: 'Ein Einsiedlerkrebs mit Detektivmütze untersucht mit einer Lupe eine Muschel am Meeresgrund.',
+      hoehe: 720,
+      abstandUnten: 115,
+    },
+    akzent: '#f2a27a',
+    status: 'live',
+  },
+  {
     id: 'neue-station',
     name: 'Neue Station',
     beschreibung: 'taucht bald auf',

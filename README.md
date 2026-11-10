@@ -25,7 +25,7 @@ Geändert wird nur `js/plattformen.js`. Die Seite baut die Fenster daraus selbst
 4. **Bild nachjustieren, falls nötig:** Wenn das Bild mit dem Text oder dem Pfeilknopf kollidiert, `abstandUnten` anpassen. Standard ist 70, kleinere Werte schieben das Bild tiefer.
 5. **Prüfen:** `py tests/pruefen.py` laufen lassen und die Seite einmal hoch und einmal quer ansehen.
 
-Ab drei Stationen ordnet sich das Querformat automatisch in mehreren Reihen.
+Im Querformat stehen bis zu drei Stationen nebeneinander (ab drei werden die Fenster etwas kleiner), weitere und der Platzhalter rutschen in die Reihe darunter.
 
 ## Test
 
