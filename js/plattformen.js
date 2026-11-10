@@ -63,6 +63,21 @@ export const plattformen = [
     status: 'live',
   },
   {
+    id: 'zahlenschwarm',
+    name: 'Zahlenschwarm',
+    beschreibung: 'Kopfrechnen mit Tupfi',
+    url: 'https://setsna.github.io/zahlenschwarm/',
+    bild: {
+      webp: 'assets/stationen/zahlenschwarm.webp',
+      png: 'assets/stationen/zahlenschwarm.png',
+      alt: 'Ein gelber Fisch mit Tupfen schwimmt einem Schwarm kleiner Fische voraus.',
+      hoehe: 720,
+      abstandUnten: 115,
+    },
+    akzent: '#9fe3b0',
+    status: 'live',
+  },
+  {
     id: 'neue-station',
     name: 'Neue Station',
     beschreibung: 'taucht bald auf',

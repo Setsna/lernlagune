@@ -57,7 +57,7 @@ for url in re.findall(r"url:\s*'([^']+)'", konfig):
 print('4. Ladegröße erster Aufruf (WebP-Browser)')
 dateien = ['index.html', 'css/lagune.css', 'js/lagune.js', 'js/plattformen.js',
            'assets/plates/lagune.webp', 'assets/stationen/ki-korallenriff.webp',
-           'assets/stationen/perlentaucher.webp', 'assets/stationen/riff-akten.webp',
+           'assets/stationen/perlentaucher.webp', 'assets/stationen/riff-akten.webp', 'assets/stationen/zahlenschwarm.webp',
            'assets/fonts/libre-caslon-text.woff2',
            'assets/fonts/andika-regular.woff2', 'assets/fonts/andika-bold.woff2']
 summe = sum((WURZEL / d).stat().st_size for d in dateien)

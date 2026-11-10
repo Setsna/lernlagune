@@ -527,9 +527,19 @@ a.fenster:focus-visible {
   }
 
   /* Ab drei Stationen: alles in den Fenstern etwas kleiner, damit drei
-     nebeneinander passen (3 × 445 + 2 × 60 + Rand ≈ 1520) */
+     nebeneinander passen (3 × 445 + 2 × 60 + Rand ≈ 1500, dazu Reserve
+     für eine Scrollleiste, die erst nach dem Messen von --breite erscheint) */
   .stationen--viele {
-    --s: min(calc(100svh / 1010), calc(var(--breite) / 1520));
+    --s: min(calc(100svh / 1010), calc(var(--breite) / 1560));
+  }
+
+  /* Kein eigener Umbruch: der Platzhalter reiht sich hinter die letzte Station */
+  .stationen--viele .stationen__umbruch {
+    display: none;
+  }
+
+  .stationen--viele .station--bald {
+    align-self: center;
   }
 }
 
