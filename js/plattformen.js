@@ -78,6 +78,21 @@ export const plattformen = [
     status: 'live',
   },
   {
+    id: 'flaschenpost',
+    name: 'Flaschenpost',
+    beschreibung: 'Wer hat das geschrieben?',
+    url: 'https://setsna.github.io/flaschenpost/',
+    bild: {
+      webp: 'assets/stationen/flaschenpost.webp',
+      png: 'assets/stationen/flaschenpost.png',
+      alt: 'Eine Flaschenpost mit einem eingerollten Brief liegt am Meeresgrund, ein kleiner Fisch schaut sie an.',
+      hoehe: 720,
+      abstandUnten: 105,
+    },
+    akzent: '#c3b5f0',
+    status: 'live',
+  },
+  {
     id: 'neue-station',
     name: 'Neue Station',
     beschreibung: 'taucht bald auf',
