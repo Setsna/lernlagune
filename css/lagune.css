@@ -661,3 +661,7 @@ a.fenster:focus-visible {
     display: none;
   }
 }
+
+/* Kein Doppeltipp-Zoom in Safari (Kinder tippen Knöpfe schnell hintereinander, Safari zoomte dann).
+   Zoomen mit zwei Fingern bleibt möglich. Flächen zum Ziehen oder Malen behalten ihr eigenes touch-action. (12.11.2026) */
+html, body, button, a, input, label, summary, select, textarea { touch-action: manipulation; }
