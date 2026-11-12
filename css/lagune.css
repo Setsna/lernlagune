@@ -547,6 +547,11 @@ a.fenster:focus-visible {
   .stationen--viele .station--bald {
     align-self: center;
   }
+
+  /* Letzte Reihe voll (3, 6, 9 … Stationen): Platzhalter in eigene Reihe */
+  .stationen--reihe-voll .stationen__umbruch {
+    display: block;
+  }
 }
 
 /* ── Handy hochkant ────────────────────────────────────── */

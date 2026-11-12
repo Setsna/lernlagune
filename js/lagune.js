@@ -98,6 +98,9 @@ function baueStationen() {
   umbruch.setAttribute('aria-hidden', 'true');
   const teile = bald.length ? [umbruch, ...bald] : [];
   liste.classList.toggle('stationen--viele', live.length > 2);
+  /* Querformat: Reihen zu je drei. Ist die letzte Reihe voll, rutscht der
+     Platzhalter in eine eigene Reihe darunter, statt sich daneben zu quetschen. */
+  liste.classList.toggle('stationen--reihe-voll', live.length > 2 && live.length % 3 === 0);
   liste.replaceChildren(...live.slice(0, mitte), ...teile, ...live.slice(mitte));
 }
 
