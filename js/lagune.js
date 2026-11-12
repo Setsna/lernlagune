@@ -43,6 +43,8 @@ function liveStation(p) {
   if (Number.isFinite(p.bild?.abstandUnten)) a.style.setProperty('--bild-unten', String(p.bild.abstandUnten));
 
   const titel = element('span', 'fenster__name', p.name);
+  /* lange Namen (z. B. „Seesternwerkstatt“) etwas kleiner, damit Luft zur Glaskante bleibt */
+  if (p.name.length > 15) titel.classList.add('fenster__name--lang');
   const linie = element('span', 'fenster__linie');
   linie.setAttribute('aria-hidden', 'true');
   const text = element('span', 'fenster__text', p.beschreibung);

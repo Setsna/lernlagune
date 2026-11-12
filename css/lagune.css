@@ -316,6 +316,12 @@ body {
   text-shadow: 0 1px 3px rgba(4, 30, 50, 0.45);
 }
 
+/* Lange Namen: gleiche Zeilenhöhe, damit alle Fenster gleich bleiben */
+.fenster__name--lang {
+  font-size: calc(43 * var(--s));
+  line-height: calc(50 * 1.05 / 43);
+}
+
 .fenster__linie {
   position: relative;
   width: 58%;
@@ -584,6 +590,11 @@ a.fenster:focus-visible {
 
   .fenster__name {
     font-size: calc(58 * var(--s));
+  }
+
+  .fenster__name--lang {
+    font-size: calc(49 * var(--s));
+    line-height: calc(58 * 1.05 / 49);
   }
 
   .fenster__text {

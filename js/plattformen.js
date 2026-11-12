@@ -93,6 +93,21 @@ export const plattformen = [
     status: 'live',
   },
   {
+    id: 'seesternwerkstatt',
+    name: 'Seesternwerkstatt',
+    beschreibung: 'Spiegeln, legen, Muster',
+    url: 'https://setsna.github.io/seesternwerkstatt/',
+    bild: {
+      webp: 'assets/stationen/seesternwerkstatt.webp',
+      png: 'assets/stationen/seesternwerkstatt.png',
+      alt: 'Ein orangefarbener Seestern liegt im Sand, um ihn herum sind Muscheln und Steine zu einem gleichmäßigen Muster gelegt.',
+      hoehe: 720,
+      abstandUnten: 70,
+    },
+    akzent: '#f5a8c0',
+    status: 'live',
+  },
+  {
     id: 'neue-station',
     name: 'Neue Station',
     beschreibung: 'taucht bald auf',
