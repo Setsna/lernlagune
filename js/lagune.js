@@ -1,4 +1,4 @@
-import { plattformen } from './plattformen.js';
+import { plattformen } from './plattformen.js?v=2';
 
 const liste = document.getElementById('stationen');
 

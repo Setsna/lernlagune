@@ -27,12 +27,17 @@ css = (WURZEL / 'css' / 'lagune.css').read_text(encoding='utf-8')
 konfig = (WURZEL / 'js' / 'plattformen.js').read_text(encoding='utf-8')
 
 print('1. Interne Dateien')
-pfade = set(re.findall(r'(?:src|href|srcset)="([^"#:]+)"', html))
+pfade = set(re.findall(r'(?:src|href|srcset)="([^"#:?]+)(?:\?[^"]*)?"', html))
 pfade |= {p for p in re.findall(r"url\(['\"]?([^'\")]+)['\"]?\)", css) if not p.startswith('data:')}
 pfade |= set(re.findall(r"'(assets/[^']+)'", konfig))
 for p in sorted(pfade):
     datei = (WURZEL / 'css' / p) if p.startswith('../') else (WURZEL / p)
     (ok if datei.resolve().is_file() else fehlt)(p)
+
+print('1b. Versionsnummer ?v gleich in index.html und lagune.js')
+js = (WURZEL / 'js' / 'lagune.js').read_text(encoding='utf-8')
+nummern = set(re.findall(r'\?v=(\d+)', html)) | set(re.findall(r'\?v=(\d+)', js))
+(ok if len(nummern) == 1 else fehlt)('?v=' + ', '.join(sorted(nummern)))
 
 print('2. Keine fremden Skripte oder Stile')
 fremd = re.findall(r'<(?:script|link)[^>]+(?:src|href)="(https?:[^"]+)"', html)

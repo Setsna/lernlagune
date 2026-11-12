@@ -23,9 +23,10 @@ Geändert wird nur `js/plattformen.js`. Die Seite baut die Fenster daraus selbst
 2. **Eintrag anlegen:** In `js/plattformen.js` einen bestehenden Eintrag kopieren und `id`, `name`, `beschreibung`, `url`, die Bildpfade, `alt` und `hoehe` (Pixelhöhe des Bildes) anpassen, dazu `akzent`: die Farbe des Leuchtpunkts unter dem Namen.
 3. **Status setzen:** `status: 'live'` macht die Station antippbar. `status: 'bald'` zeigt sie als kleines Nebel-Fenster mit Schloss.
 4. **Bild nachjustieren, falls nötig:** Wenn das Bild mit dem Text oder dem Pfeilknopf kollidiert, `abstandUnten` anpassen. Standard ist 70, kleinere Werte schieben das Bild tiefer.
-5. **Prüfen:** `py tests/pruefen.py` laufen lassen und die Seite einmal hoch und einmal quer ansehen.
+5. **Versionsnummer hochzählen:** In `index.html` (bei `css/lagune.css?v=` und `js/lagune.js?v=`) und in `js/lagune.js` (Import `plattformen.js?v=`) überall dieselbe Zahl um eins erhöhen. Sonst zeigen iPads noch eine Weile die alte Liste aus dem Zwischenspeicher.
+6. **Prüfen:** `py tests/pruefen.py` laufen lassen und die Seite einmal hoch und einmal quer ansehen.
 
-Im Querformat stehen bis zu drei Stationen nebeneinander (ab drei werden die Fenster etwas kleiner). Weitere Stationen und der Platzhalter füllen die Reihe darunter.
+Im Querformat stehen bis zu drei Stationen nebeneinander (ab drei werden die Fenster etwas kleiner). Weitere Stationen und der Platzhalter füllen die Reihe darunter. Ist die letzte Dreierreihe voll, steht der Platzhalter allein in einer eigenen Reihe.
 
 ## Test
 
