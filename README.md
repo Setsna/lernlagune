@@ -4,7 +4,7 @@ Startseite für lernlagune.de. Von hier aus kommen die Kinder zu den Lernplattfo
 
 - Reines HTML, CSS und JavaScript, ohne Framework, Build-Schritt oder Abhängigkeiten.
 - Keine Cookies, kein Tracking, keine fremden Skripte oder Schriften. Alles liegt im Projekt.
-- Nicht in Suchmaschinen: `<meta name="robots" content="noindex, nofollow">` in `index.html`, wie bei den beiden Plattformen. Bewusst keine `robots.txt` mit Sperre, sonst könnten Suchmaschinen das noindex gar nicht lesen.
+- Nicht in Suchmaschinen: `<meta name="robots" content="noindex, nofollow">` in `index.html`, wie bei den Plattformen. Bewusst keine `robots.txt` mit Sperre, sonst könnten Suchmaschinen das noindex gar nicht lesen.
 - Gestaltung und Designsystem: siehe `DESIGN.md`.
 
 ## Lokal ansehen
@@ -88,4 +88,4 @@ Die `.gitignore` lässt nur die Webseite ins Repo. Alles andere bleibt lokal.
 - `www.lernlagune.de` leitet automatisch auf `lernlagune.de` um.
 - Das HTTPS-Zertifikat stellt GitHub automatisch aus und verlängert es selbst. „Enforce HTTPS“ ist in den Pages-Einstellungen eingeschaltet.
 - Andere DNS-Einträge (z. B. für E-Mail) gibt es nicht. Wer später welche ergänzt, lässt die Einträge oben unverändert.
-- Die Plattformen KI-Korallenriff und Perlentaucher laufen unabhängig in eigenen Repos unter `setsna.github.io`. Diese Seite verlinkt sie nur.
+- Die verlinkten Plattformen laufen unabhängig in eigenen Repos unter `setsna.github.io`. Diese Seite verlinkt sie nur.
