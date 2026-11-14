@@ -73,7 +73,7 @@ git push
 
 Die `.gitignore` lässt nur die Webseite ins Repo. Alles andere bleibt lokal.
 
-## Hosting und Domain (Stand 09.11.2026)
+## Hosting und Domain (Stand 14.11.2026)
 
 - **Repo:** https://github.com/Setsna/lernlagune (öffentlich). Pages läuft aus dem Branch `main`, Ordner `/`.
 - **Domain:** `lernlagune.de` liegt bei netcup (CCP → Domains → lernlagune.de → CloudDNS).
@@ -84,8 +84,10 @@ Die `.gitignore` lässt nur die Webseite ins Repo. Alles andere bleibt lokal.
 | @ | A | 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 |
 | @ | AAAA | 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153, 2606:50c0:8003::153 |
 | www | CNAME | setsna.github.io. |
+| _github-pages-challenge-Setsna | TXT | Prüfcode von GitHub (GitHub → Settings → Pages → Verified domains) |
 
+- **Die Domain ist bei GitHub verifiziert** (seit 14.11.2026). Damit kann kein fremdes GitHub-Konto `lernlagune.de` für eine eigene Seite eintragen. Der TXT-Eintrag muss stehen bleiben: GitHub prüft ihn weiter, ohne ihn verliert die Domain den Status „verifiziert“.
 - `www.lernlagune.de` leitet automatisch auf `lernlagune.de` um.
 - Das HTTPS-Zertifikat stellt GitHub automatisch aus und verlängert es selbst. „Enforce HTTPS“ ist in den Pages-Einstellungen eingeschaltet.
-- Andere DNS-Einträge (z. B. für E-Mail) gibt es nicht. Wer später welche ergänzt, lässt die Einträge oben unverändert.
+- Andere DNS-Einträge (z. B. für E-Mail) gibt es nicht. Wer später welche ergänzt, lässt die Einträge oben unverändert. Einträge, die auf GitHub zeigen, ohne dass dort eine Seite liegt, gehören gelöscht.
 - Die verlinkten Plattformen laufen unabhängig in eigenen Repos unter `setsna.github.io`. Diese Seite verlinkt sie nur.
