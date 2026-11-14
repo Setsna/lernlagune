@@ -1,0 +1,170 @@
+/* Lernlagune – Impressum und Datenschutz
+ * Leseseiten für Erwachsene. Gleiche Welt wie die Startseite (Farben, Schriften
+ * und Maßstab kommen aus lagune.css), aber ohne Bild, Glas und Bewegung:
+ * weiße Schrift im tiefen Wasser, von oben fällt etwas Licht.
+ * Schrift wird mit --s skaliert und hat eine feste Untergrenze in px.
+ */
+
+.rechtsseite {
+  min-height: 100vh;
+  min-height: 100svh;
+  background-color: var(--tiefe);
+  background-image: linear-gradient(180deg, var(--navy-weich) 0, var(--tiefe) calc(520 * var(--s)));
+  background-repeat: no-repeat;
+}
+
+.recht {
+  width: min(100%, 36em);
+  margin: 0 auto;
+  padding: max(28px, calc(64 * var(--s))) max(20px, calc(40 * var(--s))) max(40px, calc(96 * var(--s)));
+  font-size: max(17px, calc(25 * var(--s)));
+  line-height: 1.6;
+  color: var(--weiss);
+}
+
+/* Kopf: Wortmarke führt zurück zur Lagune */
+.recht__kopf {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.recht__kopf .wortmarke {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  font-size: max(22px, calc(31 * var(--s)));
+  color: var(--weiss);
+  text-decoration: none;
+}
+
+.recht__kopf .welle {
+  width: min(62px, calc(80 * var(--s)));
+  min-width: 44px;
+  height: max(10px, calc(18 * var(--s)));
+  margin-top: -4px;
+  stroke: rgba(255, 255, 255, 0.6);
+}
+
+.recht h1 {
+  margin: max(28px, calc(56 * var(--s))) 0 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: max(34px, calc(64 * var(--s)));
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.recht__stand {
+  margin: 0.5em 0 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.recht h2 {
+  margin: 2.1em 0 0.45em;
+  font-size: max(20px, calc(30 * var(--s)));
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.recht p,
+.recht ul {
+  margin: 0 0 0.9em;
+}
+
+.recht ul {
+  padding-left: 1.2em;
+}
+
+.recht li {
+  margin-bottom: 0.35em;
+}
+
+.recht li::marker {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Die kurze Fassung für Kinder steht oben und ist eine Stufe größer. */
+.recht__kurz {
+  margin-top: max(24px, calc(44 * var(--s)));
+  font-size: 1.12em;
+  line-height: 1.5;
+}
+
+.recht__kurz h2 {
+  margin-top: 0;
+}
+
+.recht a {
+  color: var(--weiss);
+  text-decoration-color: rgba(255, 255, 255, 0.6);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.recht a:focus-visible {
+  outline: 3px solid var(--weiss);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Zurück zur Lagune: der runde Pfeil-Knopf der Startseite, nach links gedreht */
+.recht__zurueck {
+  margin: 2.6em 0 0;
+}
+
+.zurueck {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  min-height: 48px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.zurueck__knopf {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: max(48px, calc(64 * var(--s)));
+  height: max(48px, calc(64 * var(--s)));
+  border-radius: 50%;
+  background: var(--weiss);
+  color: var(--navy);
+  box-shadow: 0 10px 22px -6px rgba(3, 20, 35, 0.5);
+  transition: transform 160ms var(--ease);
+}
+
+.zurueck__knopf svg {
+  width: 46%;
+  height: 46%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotate(180deg);
+}
+
+.zurueck:active .zurueck__knopf {
+  transform: scale(0.92);
+}
+
+.recht__fuss {
+  margin-top: 1.4em;
+}
+
+.recht__fuss a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zurueck__knopf {
+    transition: none;
+  }
+}
