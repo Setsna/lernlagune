@@ -23,7 +23,7 @@ Geändert wird nur `js/plattformen.js`. Die Seite baut die Fenster daraus selbst
 2. **Eintrag anlegen:** In `js/plattformen.js` einen bestehenden Eintrag kopieren und `id`, `name`, `beschreibung`, `url`, die Bildpfade, `alt` und `hoehe` (Pixelhöhe des Bildes) anpassen, dazu `akzent`: die Farbe des Leuchtpunkts unter dem Namen.
 3. **Status setzen:** `status: 'live'` macht die Station antippbar. `status: 'bald'` zeigt sie als kleines Nebel-Fenster mit Schloss.
 4. **Bild nachjustieren, falls nötig:** Wenn das Bild mit dem Text oder dem Pfeilknopf kollidiert, `abstandUnten` anpassen. Standard ist 70, kleinere Werte schieben das Bild tiefer.
-5. **Versionsnummer hochzählen:** In `index.html` (bei `css/lagune.css?v=` und `js/lagune.js?v=`) und in `js/lagune.js` (Import `plattformen.js?v=`) überall dieselbe Zahl um eins erhöhen. Sonst zeigen iPads noch eine Weile die alte Liste aus dem Zwischenspeicher.
+5. **Versionsnummer hochzählen:** In `index.html` (bei `css/lagune.css?v=` und `js/lagune.js?v=`), in `js/lagune.js` (Import `plattformen.js?v=`) sowie in `impressum.html` und `datenschutz.html` (bei `css/lagune.css?v=` und `css/recht.css?v=`) überall dieselbe Zahl um eins erhöhen. Sonst zeigen iPads noch eine Weile die alte Liste aus dem Zwischenspeicher.
 6. **Prüfen:** `py tests/pruefen.py` laufen lassen und die Seite einmal hoch und einmal quer ansehen.
 
 Im Querformat stehen bis zu drei Stationen nebeneinander (ab drei werden die Fenster etwas kleiner). Weitere Stationen und der Platzhalter füllen die Reihe darunter. Ist die letzte Dreierreihe voll, steht der Platzhalter allein in einer eigenen Reihe.
@@ -45,8 +45,10 @@ Das Skript prüft:
 
 | Pfad | Inhalt |
 |---|---|
-| `index.html` | Seite, Sicherheitsregeln (CSP), Ersatzlinks ohne JavaScript |
+| `index.html` | Seite, Sicherheitsregeln (CSP), Ersatzlinks ohne JavaScript, Fuß mit den Links zu Impressum und Datenschutz |
+| `impressum.html`, `datenschutz.html` | Leseseiten für Erwachsene (seit 14.11.2026). Ohne JavaScript, eigene CSP mit `script-src 'none'`. Die Datenschutzseite beginnt mit einer kurzen Fassung für Kinder. |
 | `css/lagune.css` | Gestaltung. Der Maßstab `--s` rechnet die Werte aus dem Entwurf (1088 px breit) auf die echte Breite um. |
+| `css/recht.css` | Gestaltung der beiden Leseseiten. Farben, Schriften und Maßstab kommen aus `lagune.css`. |
 | `js/plattformen.js` | **Liste der Stationen** (hier wird gepflegt) |
 | `js/lagune.js` | baut die Fenster und misst die echte Bildschirmbreite. Pausiert die Bewegung, wenn sie nicht zu sehen ist. |
 | `assets/` | Hintergrund, Stationsbilder, Schriften (OFL-Lizenzen liegen bei) |
@@ -71,7 +73,9 @@ git commit -m "Neue Station: …"
 git push
 ```
 
-Die `.gitignore` lässt nur die Webseite ins Repo. Alles andere bleibt lokal.
+Die `.gitignore` lässt nur die Webseite ins Repo. Alles andere bleibt lokal. Eine neue Datei auf oberster Ebene (wie `impressum.html`) muss dort freigegeben werden, sonst fehlt sie online.
+
+Ändert sich, was die Seite speichert oder welcher Dienst eingebunden ist, muss `datenschutz.html` mitgeändert werden.
 
 ## Hosting und Domain (Stand 14.11.2026)
 
