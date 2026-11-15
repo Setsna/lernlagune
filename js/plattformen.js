@@ -108,6 +108,21 @@ export const plattformen = [
     status: 'live',
   },
   {
+    id: 'chancenbucht',
+    name: 'Chancenbucht',
+    beschreibung: 'Erst vermuten, dann zählen',
+    url: 'https://setsna.github.io/chancenbucht/',
+    bild: {
+      webp: 'assets/stationen/chancenbucht.webp',
+      png: 'assets/stationen/chancenbucht.png',
+      alt: 'Ein kastenförmiger blauer Kofferfisch mit Wabenmuster schaut auf vier bunte Kugeln im Sand.',
+      hoehe: 720,
+      abstandUnten: 10,
+    },
+    akzent: '#9cc4f5',
+    status: 'live',
+  },
+  {
     id: 'neue-station',
     name: 'Neue Station',
     beschreibung: 'taucht bald auf',
