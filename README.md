@@ -19,7 +19,7 @@ Dann im Browser `http://127.0.0.1:4173/` öffnen. Die Datei `index.html` direkt 
 
 Geändert wird nur `js/plattformen.js`. Die Seite baut die Fenster daraus selbst.
 
-1. **Bild vorbereiten:** 720 px breit, das Motiv unten, oben ruhiges Wasser. Speichern als `assets/stationen/<id>.webp` und zusätzlich als `<id>.png`.
+1. **Bild vorbereiten:** 720 px breit, das Motiv unten, oben ruhiges Wasser. Speichern als `assets/stationen/<id>.webp` (Qualität 60) und zusätzlich als `<id>.png`.
 2. **Eintrag anlegen:** In `js/plattformen.js` einen bestehenden Eintrag kopieren und `id`, `name`, `beschreibung`, `url`, die Bildpfade, `alt` und `hoehe` (Pixelhöhe des Bildes) anpassen, dazu `akzent`: die Farbe des Leuchtpunkts unter dem Namen.
 3. **Status setzen:** `status: 'live'` macht die Station antippbar. `status: 'bald'` zeigt sie als kleines Nebel-Fenster mit Schloss.
 4. **Bild nachjustieren, falls nötig:** Wenn das Bild mit dem Text oder dem Pfeilknopf kollidiert, `abstandUnten` anpassen. Standard ist 70, kleinere Werte schieben das Bild tiefer.
@@ -39,7 +39,7 @@ Das Skript prüft:
 - dass keine fremden Skripte eingebunden sind
 - ob die Sicherheitsregeln (CSP) gesetzt sind
 - ob die Zieladressen der Plattformen erreichbar sind (HTTP 200)
-- ob der erste Aufruf unter 600 KB bleibt
+- ob der erste Aufruf im Ladebudget bleibt: Grundseite unter 400 KB, insgesamt höchstens 400 KB + 50 KB je Station (Stationsbilder als WebP mit Qualität 60 speichern)
 
 ## Ordner
 

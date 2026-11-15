@@ -60,14 +60,22 @@ for url in re.findall(r"url:\s*'([^']+)'", konfig):
         fehlt(f'{url} -> {e}')
 
 print('4. Ladegröße erster Aufruf (WebP-Browser)')
-dateien = ['index.html', 'css/lagune.css', 'js/lagune.js', 'js/plattformen.js',
-           'assets/plates/lagune.webp', 'assets/stationen/ki-korallenriff.webp',
-           'assets/stationen/perlentaucher.webp', 'assets/stationen/riff-akten.webp', 'assets/stationen/zahlenschwarm.webp', 'assets/stationen/flaschenpost.webp', 'assets/stationen/seesternwerkstatt.webp',
-           'assets/fonts/libre-caslon-text.woff2',
-           'assets/fonts/andika-regular.woff2', 'assets/fonts/andika-bold.woff2']
-summe = sum((WURZEL / d).stat().st_size for d in dateien)
-print(f'        {summe / 1024:.0f} KB gesamt')
-(ok if summe < 600 * 1024 else fehlt)('unter 600 KB')
+# Budget wächst mit den Stationen: 400 KB Grundseite + 50 KB je Stationsbild.
+# Die Stationsbilder werden aus plattformen.js gelesen, neue zählen automatisch mit.
+grundseite = ['index.html', 'css/lagune.css', 'js/lagune.js', 'js/plattformen.js',
+              'assets/plates/lagune.webp',
+              'assets/fonts/libre-caslon-text.woff2',
+              'assets/fonts/andika-regular.woff2', 'assets/fonts/andika-bold.woff2']
+stationsbilder = re.findall(r"webp:\s*'([^']+)'", konfig)
+basis = sum((WURZEL / d).stat().st_size for d in grundseite)
+print(f'        Grundseite {basis / 1024:.0f} KB')
+for d in stationsbilder:
+    print(f'        {(WURZEL / d).stat().st_size / 1024:.0f} KB  {d}')
+summe = basis + sum((WURZEL / d).stat().st_size for d in stationsbilder)
+budget = (400 + 50 * len(stationsbilder)) * 1024
+print(f'        {summe / 1024:.0f} KB gesamt, Budget {budget // 1024} KB ({len(stationsbilder)} Stationen)')
+(ok if basis < 400 * 1024 else fehlt)('Grundseite unter 400 KB')
+(ok if summe < budget else fehlt)('gesamt unter Budget')
 
 print()
 print('ALLES OK' if not fehler else f'{len(fehler)} FEHLER')
