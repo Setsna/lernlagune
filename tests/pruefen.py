@@ -45,6 +45,12 @@ fremd = re.findall(r'<(?:script|link)[^>]+(?:src|href)="(https?:[^"]+)"', html)
 (ok if 'Content-Security-Policy' in html else fehlt)('Content-Security-Policy gesetzt')
 (ok if 'no-referrer' in html else fehlt)('Referrer wird nicht weitergegeben')
 (ok if re.search(r'<meta name="robots" content="noindex, nofollow">', html) else fehlt)('Suchmaschinen ausgesperrt (noindex, nofollow)')
+# Auch Datenschutz und Impressum (bis 15.11.2026 wurde nur index.html geprüft)
+for nebenseite in ('datenschutz.html', 'impressum.html'):
+    t = (WURZEL / nebenseite).read_text(encoding='utf-8')
+    (ok if 'Content-Security-Policy' in t else fehlt)(f'{nebenseite}: Content-Security-Policy gesetzt')
+    (ok if 'no-referrer' in t else fehlt)(f'{nebenseite}: Referrer wird nicht weitergegeben')
+    (ok if '<meta name="robots" content="noindex, nofollow">' in t else fehlt)(f'{nebenseite}: noindex, nofollow')
 js = (WURZEL / 'js' / 'lagune.js').read_text(encoding='utf-8')
 (ok if "noopener noreferrer" in js else fehlt)('externe Links mit noopener noreferrer')
 for wort in ('localStorage', 'document.cookie', 'fetch(', 'XMLHttpRequest'):
