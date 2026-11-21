@@ -1,6 +1,6 @@
-import { plattformen } from './plattformen.js?v=8';
+import { faecher, plattformen } from './plattformen.js?v=9';
 
-const liste = document.getElementById('stationen');
+const ort = document.getElementById('stationen');
 
 /* Nur sichere Ziel-Adressen zulassen. */
 function sichereUrl(url) {
@@ -31,7 +31,7 @@ function symbol(id, klasse) {
   return svg;
 }
 
-function liveStation(p) {
+function liveStation(p, fach) {
   const url = sichereUrl(p.url);
   if (!url) return null;
 
@@ -39,7 +39,7 @@ function liveStation(p) {
   const a = element('a', 'fenster');
   a.href = url;
   a.rel = 'noopener noreferrer';
-  if (p.akzent) a.style.setProperty('--akzent', p.akzent);
+  if (fach?.farbe) a.style.setProperty('--akzent', fach.farbe);
   if (Number.isFinite(p.bild?.abstandUnten)) a.style.setProperty('--bild-unten', String(p.bild.abstandUnten));
 
   const titel = element('span', 'fenster__name', p.name);
@@ -84,24 +84,56 @@ function baldStation(p) {
   return li;
 }
 
-function baueStationen() {
-  if (!liste) return;
-  const live = plattformen.filter((p) => p.status === 'live').map(liveStation).filter(Boolean);
-  const bald = plattformen.filter((p) => p.status === 'bald').map(baldStation);
+function stationsListe(fenster, klasse) {
+  const ul = element('ul', klasse);
+  ul.append(...fenster);
+  return ul;
+}
 
-  /* Reihenfolge im Dokument: erste Hälfte, Platzhalter, zweite Hälfte.
-     Im Querformat liegt der Platzhalter so in der Mitte des Bogens,
-     im Hochformat schiebt CSS ihn in eine eigene Reihe darunter. */
-  const mitte = Math.ceil(live.length / 2);
-  const umbruch = element('li', 'stationen__umbruch');
-  umbruch.setAttribute('role', 'presentation');
-  umbruch.setAttribute('aria-hidden', 'true');
-  const teile = bald.length ? [umbruch, ...bald] : [];
-  liste.classList.toggle('stationen--viele', live.length > 2);
-  /* Querformat: Reihen zu je drei. Ist die letzte Reihe voll, rutscht der
-     Platzhalter in eine eigene Reihe darunter, statt sich daneben zu quetschen. */
-  liste.classList.toggle('stationen--reihe-voll', live.length > 2 && live.length % 3 === 0);
-  liste.replaceChildren(...live.slice(0, mitte), ...teile, ...live.slice(mitte));
+/* Die Stationen stehen nach Fächern in Abschnitten: Überschrift, darunter die
+   Fenster. Fächer und Reihenfolge kommen aus js/plattformen.js. */
+function baueStationen() {
+  if (!ort) return;
+  const live = plattformen.filter((p) => p.status === 'live');
+  const teile = [];
+
+  for (const fach of faecher) {
+    const fenster = live.filter((p) => p.fach === fach.id).map((p) => liveStation(p, fach)).filter(Boolean);
+    if (!fenster.length) continue;
+
+    const abschnitt = element('section', 'fach');
+    const titel = element('h2', 'fach__titel');
+    titel.id = 'fach-' + fach.id;
+    const punkt = element('span', 'fach__punkt');
+    punkt.setAttribute('aria-hidden', 'true');
+    if (fach.farbe) punkt.style.setProperty('--akzent', fach.farbe);
+    titel.append(punkt, element('span', '', fach.name));
+
+    const ul = stationsListe(fenster, 'stationen');
+    ul.setAttribute('aria-labelledby', titel.id);
+    abschnitt.append(titel, ul);
+    teile.push(abschnitt);
+  }
+
+  /* Sicherheitsnetz: Eine Station ohne (bekanntes) Fach verschwindet nicht,
+     sie steht ohne Überschrift hinter den Fächern. */
+  const bekannt = new Set(faecher.map((f) => f.id));
+  const ohneFach = live.filter((p) => !bekannt.has(p.fach)).map((p) => liveStation(p)).filter(Boolean);
+  if (ohneFach.length) {
+    const ul = stationsListe(ohneFach, 'stationen');
+    ul.setAttribute('aria-label', 'Weitere Stationen');
+    teile.push(ul);
+  }
+
+  /* Platzhalter in eigener Reihe ganz unten */
+  const bald = plattformen.filter((p) => p.status === 'bald').map(baldStation);
+  if (bald.length) {
+    const ul = stationsListe(bald, 'stationen stationen--bald');
+    ul.setAttribute('aria-label', 'Bald');
+    teile.push(ul);
+  }
+
+  ort.replaceChildren(...teile);
 }
 
 /* Endlos-Bewegung anhalten, sobald sie nicht zu sehen ist (spart Akku). */

@@ -252,10 +252,64 @@ body {
   color: var(--navy-weich);
 }
 
-/* ── Stationen: Glasfenster im Bogen ───────────────────── */
+/* ── Fächer: je Abschnitt eine Überschrift, darunter die Stationen ──
+ * Die Überschrift ist ein Nebelglas-Schild wie Platzhalter und Fuß: weiße
+ * Schrift bleibt so im hellen Lichtschacht und über dunklem Wasser lesbar. */
+.faecher {
+  width: 100%;
+  margin-top: calc(34 * var(--s));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fach {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fach + .fach,
+.fach + .stationen {
+  margin-top: calc(54 * var(--s));
+}
+
+.fach__titel {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(16 * var(--s));
+  padding: calc(12 * var(--s)) calc(40 * var(--s)) calc(14 * var(--s));
+  border: 2px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: max(22px, calc(44 * var(--s)));
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--weiss);
+  background: linear-gradient(180deg, rgba(10, 52, 84, 0.7), rgba(10, 52, 84, 0.58));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    0 14px 28px -10px var(--glas-schatten);
+  -webkit-backdrop-filter: blur(5px) saturate(120%);
+  backdrop-filter: blur(5px) saturate(120%);
+}
+
+/* Leuchtpunkt in der Fachfarbe (js/plattformen.js), derselbe wie unter den Stationsnamen */
+.fach__punkt {
+  flex: none;
+  width: max(9px, calc(14 * var(--s)));
+  height: max(9px, calc(14 * var(--s)));
+  border-radius: 50%;
+  background: var(--akzent, var(--weiss));
+}
+
+/* ── Stationen: Glasfenster in Reihen ──────────────────── */
 .stationen {
   list-style: none;
-  margin: calc(28 * var(--s)) 0 0;
+  margin: calc(30 * var(--s)) 0 0;
   /* schmaler Rand als Reserve, falls --breite noch 100vw ist und eine Scrollleiste
      (Windows) das zweite Fenster sonst in eine neue Zeile schieben würde */
   padding: 0 calc(24 * var(--s));
@@ -270,17 +324,6 @@ body {
 
 .station {
   width: calc(445 * var(--s));
-}
-
-/* Hochformat: Platzhalter in eigener Reihe unter dem Bogen */
-.stationen__umbruch {
-  flex-basis: 100%;
-  height: 0;
-  order: 1;
-}
-
-.station--bald {
-  order: 2;
 }
 
 .fenster {
@@ -443,10 +486,12 @@ a.fenster:focus-visible {
 }
 
 /* ── Platzhalter: kleines, nebliges Fenster ────────────── */
+.stationen--bald {
+  margin-top: calc(60 * var(--s));
+}
+
 .station--bald {
   width: calc(292 * var(--s));
-  margin-top: calc(-46 * var(--s));
-  transform: none;
 }
 
 .fenster--bald {
@@ -551,8 +596,8 @@ a.fenster:focus-visible {
 }
 
 /* ── Querformat: iPad quer, Laptop, Whiteboard ───────────
- * Alles soll ohne Scrollen sichtbar sein: Maßstab richtet sich nach der Höhe.
- * Der Platzhalter sitzt tief in der Mitte des Bogens, unter dem Lichtschacht. */
+ * Der Maßstab richtet sich nach der Höhe: Frage, erste Überschrift und die
+ * erste Reihe sind ohne Scrollen sichtbar, der Rest folgt darunter. */
 @media (orientation: landscape) and (min-width: 820px) {
   :root {
     --s: min(calc(100svh / 1010), calc(var(--breite) / 1360));
@@ -579,47 +624,15 @@ a.fenster:focus-visible {
     margin-top: calc(18 * var(--s));
   }
 
-  .stationen {
-    margin-top: calc(40 * var(--s));
-    flex-wrap: wrap;
-    column-gap: calc(60 * var(--s));
-  }
-
-  /* Zwei Stationen: Platzhalter tief in der Mitte des Bogens.
-     Mehr Stationen: weitere Fenster in tieferen Reihen, Platzhalter ganz unten. */
-  .stationen:not(.stationen--viele) .stationen__umbruch {
-    display: none;
-  }
-
-  .stationen:not(.stationen--viele) .station--bald {
-    order: 0;
-    margin-top: calc(240 * var(--s));
-  }
-
-  .station:not(.station--bald) {
-    /* Bogen: äußere Fenster höher, innere tiefer */
-    transform: none;
-  }
-
-  /* Ab drei Stationen: alles in den Fenstern etwas kleiner, damit drei
-     nebeneinander passen (3 × 445 + 2 × 60 + Rand ≈ 1500, dazu Reserve
-     für eine Scrollleiste, die erst nach dem Messen von --breite erscheint) */
-  .stationen--viele {
+  /* Drei Fenster nebeneinander: in den Abschnitten ist alles etwas kleiner
+     (3 × 445 + 2 × 60 + Rand ≈ 1500, dazu Reserve für eine Scrollleiste,
+     die erst nach dem Messen von --breite erscheint) */
+  .faecher {
     --s: min(calc(100svh / 1010), calc(var(--breite) / 1560));
   }
 
-  /* Kein eigener Umbruch: der Platzhalter reiht sich hinter die letzte Station */
-  .stationen--viele .stationen__umbruch {
-    display: none;
-  }
-
-  .stationen--viele .station--bald {
-    align-self: center;
-  }
-
-  /* Letzte Reihe voll (3, 6, 9 … Stationen): Platzhalter in eigene Reihe */
-  .stationen--reihe-voll .stationen__umbruch {
-    display: block;
+  .stationen {
+    column-gap: calc(60 * var(--s));
   }
 }
 
@@ -641,12 +654,16 @@ a.fenster:focus-visible {
     font-size: calc(30 * var(--s));
   }
 
+  .faecher {
+    margin-top: calc(44 * var(--s));
+  }
+
   .stationen {
     flex-direction: column;
     align-items: center;
     flex-wrap: nowrap;
     row-gap: calc(44 * var(--s));
-    margin-top: calc(48 * var(--s));
+    margin-top: calc(36 * var(--s));
     padding: 0 calc(36 * var(--s));
   }
 
@@ -677,7 +694,6 @@ a.fenster:focus-visible {
 
   .station--bald {
     width: calc(300 * var(--s));
-    margin-top: 0;
   }
 
   .fenster--bald .fenster__text {
@@ -701,15 +717,6 @@ a.fenster:focus-visible {
 
   .frage br {
     display: none;
-  }
-
-  .stationen:not(.stationen--viele) .stationen__umbruch {
-    display: none;
-  }
-
-  .stationen:not(.stationen--viele) .station--bald {
-    order: 0;
-    margin-top: calc(200 * var(--s));
   }
 }
 

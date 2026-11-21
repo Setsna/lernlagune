@@ -86,7 +86,7 @@ components:
 
 **Creative North Star: "Bullaugen in der Lagune"**
 
-Die Seite ist ein einziger Blick in eine gemalte Lagune: Von der Wasseroberfläche fällt ein türkiser Lichtschacht, darin stehen Wortmarke, Frage und Hinweis in Navy-Serifenschrift. Die Stationen schweben als große Glasfenster im Bogen um den Schacht; jedes Fenster ist ein Bullauge in eine andere Lernwelt. Das Bild im Fenster trägt die Wahl, der Name bestätigt sie.
+Die Seite ist ein einziger Blick in eine gemalte Lagune: Von der Wasseroberfläche fällt ein türkiser Lichtschacht, darin stehen Wortmarke, Frage und Hinweis in Navy-Serifenschrift. Die Stationen schweben als große Glasfenster darunter, nach Fächern in Abschnitte geordnet; jedes Fenster ist ein Bullauge in eine andere Lernwelt. Das Bild im Fenster trägt die Wahl, der Name bestätigt sie.
 
 Die Dichte ist niedrig: wenige Elemente, viel Wasser, zwei Schriften, im Kern nur Navy, Weiß und das Wasser selbst. Bewegung ist Atmosphäre, nie Aufforderung: ein langsam atmendes Licht und wenige Blasen an den Bildrändern. Gegenüber dem freigegebenen Entwurf C weicht der Bau bewusst ab (vom Nutzer so freigegeben): Die Fenster sind nicht gekippt, die Schrift ist größer, und die beiden Live-Fenster stehen bündig auf gleicher Höhe.
 
@@ -152,11 +152,11 @@ Alle Größen sind Entwurfs-Pixel mal `--s` (bei 1088 px Breite = 1:1).
 | Handy hoch | `max-width: 640px` und `portrait` | `--breite / 600` |
 | Handy quer | `landscape`, `max-height: 520px`, `max-width: 1000px` | `min(--breite / 1200, 100svh / 640)` |
 
-**Aufbau.** Eine zentrierte Spalte: Wortmarke (Abstand oben 136, quer 64, Handy hoch 96, Handy quer 40), Frage, Hinweis, dann die Stationsliste als umbrechende Flex-Reihe (Spaltenabstand 90, quer 60; Reihenabstand 60). Die Live-Fenster stehen bündig nebeneinander. Im Hochformat rückt der Platzhalter über ein Umbruch-Element in eine eigene Reihe darunter (leicht nach oben gezogen, -46); im Querformat und Handy quer sitzt er tief in der Mitte zwischen den beiden Fenstern (240 bzw. 200 tiefer). Handy hoch: eine Spalte, Fenster volle Breite bis 440 px. Ab drei Live-Stationen schaltet `stationen--viele` den Umbruch wieder ein: weitere Fenster in tieferen Reihen, Platzhalter ganz unten.
+**Aufbau.** Eine zentrierte Spalte: Wortmarke (Abstand oben 136, quer 64, Handy hoch 96, Handy quer 40), Frage, Hinweis, dann je Fach ein Abschnitt (`.fach`, Abstand zwischen den Abschnitten 54): die Fach-Überschrift und darunter (30) die Stationsliste als umbrechende, zentrierte Flex-Reihe (Spaltenabstand 90, quer 60; Reihenabstand 60). Die Live-Fenster stehen bündig nebeneinander, quer drei, iPad hoch zwei. Jedes Fach beginnt in einer neuen Reihe; eine unvollständige letzte Reihe steht mittig. Der Platzhalter steht in einer eigenen Liste ganz unten (60 Abstand). Handy hoch: eine Spalte, Fenster volle Breite bis 440 px. Im Querformat rechnet der Bereich `.faecher` mit dem kleineren Maßstab `min(100svh / 1010, --breite / 1560)`, damit drei Fenster nebeneinander passen.
 
 **The Ein-Maßstab Rule.** Kein festes Pixelmaß im Layout außer Untergrenzen (Touchziel 48 px, Schrift 15 px, Handy-Fensterbreite 440 px). Neue Maße werden in Entwurfs-px gedacht und mit `--s` multipliziert.
 
-**The Querformat-ohne-Scrollen Rule.** Im Querformat richtet sich der Maßstab nach der Höhe, damit Frage und alle Fenster ohne Scrollen sichtbar sind.
+**The Erster-Blick Rule.** Im Querformat richtet sich der Maßstab nach der Höhe: Frage, erste Fach-Überschrift und die erste Reihe sind ohne Scrollen sichtbar. Alle weiteren Reihen folgen darunter; die Seite darf scrollen.
 
 ## Elevation & Depth
 
@@ -186,6 +186,9 @@ Ruhig, groß, als Ganzes antippbar.
 - **Fokus:** 3 px weißer Ring, 6 px Abstand.
 - **Link:** nur `https://`, `rel="noopener noreferrer"`, gleicher Tab.
 
+### Fach-Überschrift („Mathe“, „Deutsch“, „KI und Medien“)
+Ein Schild aus Nebelglas über jeder Gruppe: Libre Caslon 44 (mindestens 22 px), weiß, davor der Leuchtpunkt in der Fachfarbe (14, mindestens 9 px). Tönung `nebel` wie Platzhalter und Fuß, Blur 5 px, 2-px-Lichtkante, ganz rund. So bleibt die weiße Schrift im hellen Lichtschacht und über dunklem Wasser lesbar. Die Überschrift ist ein `h2`, die Liste darunter trägt sie als Namen (`aria-labelledby`). Nicht antippbar.
+
 ### Pfeil-Knopf
 Weißer Kreis, `max(48px, 84 * --s)`, Navy-Pfeil aus Inline-SVG-Symbol (Strich 2, rund). Er ist Zeichen, kein eigenes Ziel: das ganze Fenster ist der Link.
 
@@ -206,10 +209,10 @@ Kleineres, nebliges Fenster mit dunkler Tönung (`nebel`, Blur 5 px), Schloss-Sy
 Nur `js/plattformen.js` ändern, nie die Seitenkomponenten:
 1. Einen Eintrag kopieren, `id`, `name`, `beschreibung` (höchstens ca. 30 Zeichen, an Kinder, duzend) und `url` (nur `https://`) setzen.
 2. Bild 720 px breit nach `assets/stationen/` legen, als webp und png, Motiv unten, oben ruhiges Wasser; `hoehe` = Pixelhöhe, `alt` = Bildbeschreibung, optional `abstandUnten` (Standard 70).
-3. `status: 'live'` für ein antippbares Fenster, `'bald'` für den Platzhalter.
-4. Die Seite verteilt die Fenster selbst (erste Hälfte, Platzhalter, zweite Hälfte); ab drei Live-Stationen entsteht ein zweiter, tieferer Bogen. Ab 7–8 Stationen braucht es eine neue Lösung.
+3. `fach` auf die `id` eines Fachs setzen (`faecher` in derselben Datei). `status: 'live'` für ein antippbares Fenster, `'bald'` für den Platzhalter.
+4. Die Seite baut Abschnitte und Reihen selbst: Reihenfolge der Fächer aus `faecher`, Reihenfolge der Fenster aus `plattformen`. Eine Station ohne bekanntes Fach steht ohne Überschrift hinter den Fächern, der Platzhalter ganz unten.
 
-`akzent` färbt den leuchtenden Punkt auf der Trennlinie unter dem Stationsnamen (`.fenster__linie::after`, mit weichem Schein). Ohne Akzent bleibt der Punkt weiß.
+Die `farbe` des Fachs färbt den leuchtenden Punkt in der Fach-Überschrift und auf der Trennlinie unter den Stationsnamen (`.fenster__linie::after`, mit weichem Schein). Das ist die einzige Stelle, an der das Interface eine Farbe trägt; sie zeigt das Fach, nicht die einzelne Station.
 
 ## Do's and Don'ts
 

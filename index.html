@@ -12,8 +12,8 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="preload" href="assets/fonts/libre-caslon-text.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/andika-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/lagune.css?v=8">
-  <script type="module" src="js/lagune.js?v=8"></script>
+  <link rel="stylesheet" href="css/lagune.css?v=9">
+  <script type="module" src="js/lagune.js?v=9"></script>
 </head>
 <body>
   <div class="lagune">
@@ -37,9 +37,10 @@
       <h1 class="frage">Wohin tauchst<br> du heute?</h1>
       <p class="hinweis">Tippe auf eine Station und tauch los.</p>
 
-      <ul class="stationen" id="stationen" aria-label="Stationen">
-        <!-- Wird aus js/plattformen.js gebaut. Ohne JavaScript gilt die Liste unten. -->
-      </ul>
+      <div class="faecher" id="stationen">
+        <!-- Wird aus js/plattformen.js gebaut: je Fach eine Überschrift und die
+             Stationen. Ohne JavaScript gilt die Liste unten. -->
+      </div>
 
       <noscript>
         <ul class="stationen stationen--einfach">

@@ -1,9 +1,16 @@
 /*
- * Lernlagune – zentrale Liste der Stationen.
+ * Lernlagune – zentrale Liste der Fächer und Stationen.
  *
  * Neue Plattform hinzufügen: einen Eintrag kopieren, Werte anpassen, fertig.
- * Die Seite baut Fenster und Reihenfolge selbst daraus.
+ * Die Seite baut Überschriften, Fenster und Reihenfolge selbst daraus.
  *
+ * Fächer (faecher): Reihenfolge = Reihenfolge der Abschnitte auf der Seite.
+ *   id     kurzer Name, auf den die Stationen mit „fach“ verweisen
+ *   name   Überschrift des Abschnitts
+ *   farbe  Farbe des Leuchtpunkts in der Überschrift und unter den
+ *          Stationsnamen dieses Fachs (CSS-Farbe)
+ *
+ * Stationen (plattformen): Reihenfolge = Reihenfolge innerhalb des Fachs.
  *   id            kurzer Name ohne Leerzeichen (für die Technik)
  *   name          so heißt die Station auf der Seite
  *   beschreibung  ein kurzer Satz für Kinder (höchstens ca. 30 Zeichen)
@@ -13,55 +20,16 @@
  *                 abstandUnten = optional, wie weit das Bild über dem Fensterrand
  *                 sitzt (Standard 70; kleiner = Bild rutscht tiefer)
  *                 (Bild 720 px breit, Motiv unten, oben ruhiges Wasser)
- *   akzent        Farbe des Leuchtpunkts unter dem Namen (CSS-Farbe)
+ *   fach          id eines Fachs aus der Liste oben
  *   status        "live" = antippbar, "bald" = kleines nebliges Fenster
  */
+export const faecher = [
+  { id: 'mathe', name: 'Mathe', farbe: '#8fd0ff' },
+  { id: 'deutsch', name: 'Deutsch', farbe: '#ff9d8a' },
+  { id: 'medien', name: 'KI und Medien', farbe: '#f3d79a' },
+];
+
 export const plattformen = [
-  {
-    id: 'ki-korallenriff',
-    name: 'KI-Korallenriff',
-    beschreibung: 'Entdecke, wie KI funktioniert',
-    url: 'https://setsna.github.io/ki-korallenriff/',
-    bild: {
-      webp: 'assets/stationen/ki-korallenriff.webp',
-      png: 'assets/stationen/ki-korallenriff.png',
-      alt: 'Eine Meeresschildkröte schwimmt über ein buntes Korallenriff.',
-      hoehe: 652,
-      abstandUnten: 10,
-    },
-    akzent: '#7fd4e6',
-    status: 'live',
-  },
-  {
-    id: 'perlentaucher',
-    name: 'Perlentaucher',
-    beschreibung: 'Üben und Perlen sammeln',
-    url: 'https://setsna.github.io/perlentaucher/',
-    bild: {
-      webp: 'assets/stationen/perlentaucher.webp',
-      png: 'assets/stationen/perlentaucher.png',
-      alt: 'Eine offene Muschel mit einer leuchtenden Perle auf dem Meeresboden.',
-      hoehe: 500,
-      abstandUnten: 48,
-    },
-    akzent: '#f3d79a',
-    status: 'live',
-  },
-  {
-    id: 'riff-akten',
-    name: 'Riff-Akten',
-    beschreibung: 'Kriminalfälle lösen',
-    url: 'https://setsna.github.io/riff-akten/',
-    bild: {
-      webp: 'assets/stationen/riff-akten.webp',
-      png: 'assets/stationen/riff-akten.png',
-      alt: 'Ein Einsiedlerkrebs mit Detektivmütze untersucht mit einer Lupe eine Muschel am Meeresgrund.',
-      hoehe: 720,
-      abstandUnten: 115,
-    },
-    akzent: '#f2a27a',
-    status: 'live',
-  },
   {
     id: 'zahlenschwarm',
     name: 'Zahlenschwarm',
@@ -74,22 +42,7 @@ export const plattformen = [
       hoehe: 720,
       abstandUnten: 115,
     },
-    akzent: '#9fe3b0',
-    status: 'live',
-  },
-  {
-    id: 'flaschenpost',
-    name: 'Flaschenpost',
-    beschreibung: 'Wer hat das geschrieben?',
-    url: 'https://setsna.github.io/flaschenpost/',
-    bild: {
-      webp: 'assets/stationen/flaschenpost.webp',
-      png: 'assets/stationen/flaschenpost.png',
-      alt: 'Eine Flaschenpost mit einem eingerollten Brief liegt am Meeresgrund, ein kleiner Fisch schaut sie an.',
-      hoehe: 720,
-      abstandUnten: 105,
-    },
-    akzent: '#c3b5f0',
+    fach: 'mathe',
     status: 'live',
   },
   {
@@ -104,7 +57,7 @@ export const plattformen = [
       hoehe: 720,
       abstandUnten: 70,
     },
-    akzent: '#f5a8c0',
+    fach: 'mathe',
     status: 'live',
   },
   {
@@ -119,7 +72,7 @@ export const plattformen = [
       hoehe: 720,
       abstandUnten: 10,
     },
-    akzent: '#9cc4f5',
+    fach: 'mathe',
     status: 'live',
   },
   {
@@ -134,7 +87,7 @@ export const plattformen = [
       hoehe: 720,
       abstandUnten: 10,
     },
-    akzent: '#c8d37a',
+    fach: 'mathe',
     status: 'live',
   },
   {
@@ -149,52 +102,7 @@ export const plattformen = [
       hoehe: 720,
       abstandUnten: 10,
     },
-    akzent: '#ffbf47',
-    status: 'live',
-  },
-  {
-    id: 'walgesang',
-    name: 'Walgesang',
-    beschreibung: 'Wer spricht? Was wird gesagt?',
-    url: 'https://setsna.github.io/walgesang/',
-    bild: {
-      webp: 'assets/stationen/walgesang.webp',
-      png: 'assets/stationen/walgesang.png',
-      alt: 'Ein Buckelwal mit langen weißen Brustflossen schwimmt ruhig durch das sonnige blaue Meer.',
-      hoehe: 720,
-      abstandUnten: 10,
-    },
-    akzent: '#dfe8f0',
-    status: 'live',
-  },
-  {
-    id: 'zeitenstrom',
-    name: 'Zeitenstrom',
-    beschreibung: 'Reise durch die Zeitformen',
-    url: 'https://setsna.github.io/zeitenstrom/',
-    bild: {
-      webp: 'assets/stationen/zeitenstrom.webp',
-      png: 'assets/stationen/zeitenstrom.png',
-      alt: 'Ein Nautilus mit weiß-rostbraun gestreifter Schale schwebt im hellen blauen Wasser.',
-      hoehe: 720,
-      abstandUnten: 10,
-    },
-    akzent: '#e67a62',
-    status: 'live',
-  },
-  {
-    id: 'satzwerft',
-    name: 'Satzwerft',
-    beschreibung: 'Wer tut was?',
-    url: 'https://setsna.github.io/satzwerft/',
-    bild: {
-      webp: 'assets/stationen/satzwerft.webp',
-      png: 'assets/stationen/satzwerft.png',
-      alt: 'Ein rosafarbener Flussdelfin schwimmt durch grünes Wasser zwischen Wurzeln und Wasserpflanzen.',
-      hoehe: 720,
-      abstandUnten: 10,
-    },
-    akzent: '#6fbf9a',
+    fach: 'mathe',
     status: 'live',
   },
   {
@@ -209,7 +117,112 @@ export const plattformen = [
       hoehe: 720,
       abstandUnten: 10,
     },
-    akzent: '#4fd1c5',
+    fach: 'mathe',
+    status: 'live',
+  },
+  {
+    id: 'perlentaucher',
+    name: 'Perlentaucher',
+    beschreibung: 'Üben und Perlen sammeln',
+    url: 'https://setsna.github.io/perlentaucher/',
+    bild: {
+      webp: 'assets/stationen/perlentaucher.webp',
+      png: 'assets/stationen/perlentaucher.png',
+      alt: 'Eine offene Muschel mit einer leuchtenden Perle auf dem Meeresboden.',
+      hoehe: 500,
+      abstandUnten: 48,
+    },
+    fach: 'deutsch',
+    status: 'live',
+  },
+  {
+    id: 'walgesang',
+    name: 'Walgesang',
+    beschreibung: 'Wer spricht? Was wird gesagt?',
+    url: 'https://setsna.github.io/walgesang/',
+    bild: {
+      webp: 'assets/stationen/walgesang.webp',
+      png: 'assets/stationen/walgesang.png',
+      alt: 'Ein Buckelwal mit langen weißen Brustflossen schwimmt ruhig durch das sonnige blaue Meer.',
+      hoehe: 720,
+      abstandUnten: 10,
+    },
+    fach: 'deutsch',
+    status: 'live',
+  },
+  {
+    id: 'zeitenstrom',
+    name: 'Zeitenstrom',
+    beschreibung: 'Reise durch die Zeitformen',
+    url: 'https://setsna.github.io/zeitenstrom/',
+    bild: {
+      webp: 'assets/stationen/zeitenstrom.webp',
+      png: 'assets/stationen/zeitenstrom.png',
+      alt: 'Ein Nautilus mit weiß-rostbraun gestreifter Schale schwebt im hellen blauen Wasser.',
+      hoehe: 720,
+      abstandUnten: 10,
+    },
+    fach: 'deutsch',
+    status: 'live',
+  },
+  {
+    id: 'satzwerft',
+    name: 'Satzwerft',
+    beschreibung: 'Wer tut was?',
+    url: 'https://setsna.github.io/satzwerft/',
+    bild: {
+      webp: 'assets/stationen/satzwerft.webp',
+      png: 'assets/stationen/satzwerft.png',
+      alt: 'Ein rosafarbener Flussdelfin schwimmt durch grünes Wasser zwischen Wurzeln und Wasserpflanzen.',
+      hoehe: 720,
+      abstandUnten: 10,
+    },
+    fach: 'deutsch',
+    status: 'live',
+  },
+  {
+    id: 'riff-akten',
+    name: 'Riff-Akten',
+    beschreibung: 'Kriminalfälle lösen',
+    url: 'https://setsna.github.io/riff-akten/',
+    bild: {
+      webp: 'assets/stationen/riff-akten.webp',
+      png: 'assets/stationen/riff-akten.png',
+      alt: 'Ein Einsiedlerkrebs mit Detektivmütze untersucht mit einer Lupe eine Muschel am Meeresgrund.',
+      hoehe: 720,
+      abstandUnten: 115,
+    },
+    fach: 'deutsch',
+    status: 'live',
+  },
+  {
+    id: 'ki-korallenriff',
+    name: 'KI-Korallenriff',
+    beschreibung: 'Entdecke, wie KI funktioniert',
+    url: 'https://setsna.github.io/ki-korallenriff/',
+    bild: {
+      webp: 'assets/stationen/ki-korallenriff.webp',
+      png: 'assets/stationen/ki-korallenriff.png',
+      alt: 'Eine Meeresschildkröte schwimmt über ein buntes Korallenriff.',
+      hoehe: 652,
+      abstandUnten: 10,
+    },
+    fach: 'medien',
+    status: 'live',
+  },
+  {
+    id: 'flaschenpost',
+    name: 'Flaschenpost',
+    beschreibung: 'Wer hat das geschrieben?',
+    url: 'https://setsna.github.io/flaschenpost/',
+    bild: {
+      webp: 'assets/stationen/flaschenpost.webp',
+      png: 'assets/stationen/flaschenpost.png',
+      alt: 'Eine Flaschenpost mit einem eingerollten Brief liegt am Meeresgrund, ein kleiner Fisch schaut sie an.',
+      hoehe: 720,
+      abstandUnten: 105,
+    },
+    fach: 'medien',
     status: 'live',
   },
   {

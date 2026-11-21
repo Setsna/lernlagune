@@ -20,13 +20,15 @@ Dann im Browser `http://127.0.0.1:4173/` öffnen. Die Datei `index.html` direkt 
 Geändert wird nur `js/plattformen.js`. Die Seite baut die Fenster daraus selbst.
 
 1. **Bild vorbereiten:** 720 px breit, das Motiv unten, oben ruhiges Wasser. Speichern als `assets/stationen/<id>.webp` (Qualität 60) und zusätzlich als `<id>.png`.
-2. **Eintrag anlegen:** In `js/plattformen.js` einen bestehenden Eintrag kopieren und `id`, `name`, `beschreibung`, `url`, die Bildpfade, `alt` und `hoehe` (Pixelhöhe des Bildes) anpassen, dazu `akzent`: die Farbe des Leuchtpunkts unter dem Namen.
+2. **Eintrag anlegen:** In `js/plattformen.js` einen bestehenden Eintrag kopieren und `id`, `name`, `beschreibung`, `url`, die Bildpfade, `alt` und `hoehe` (Pixelhöhe des Bildes) anpassen, dazu `fach`: die `id` des Fachs (`mathe`, `deutsch` oder `medien`), unter dessen Überschrift die Station steht. Die Reihenfolge der Einträge ist die Reihenfolge innerhalb des Fachs.
 3. **Status setzen:** `status: 'live'` macht die Station antippbar. `status: 'bald'` zeigt sie als kleines Nebel-Fenster mit Schloss.
 4. **Bild nachjustieren, falls nötig:** Wenn das Bild mit dem Text oder dem Pfeilknopf kollidiert, `abstandUnten` anpassen. Standard ist 70, kleinere Werte schieben das Bild tiefer.
 5. **Versionsnummer hochzählen:** In `index.html` (bei `css/lagune.css?v=` und `js/lagune.js?v=`), in `js/lagune.js` (Import `plattformen.js?v=`) sowie in `impressum.html` und `datenschutz.html` (bei `css/lagune.css?v=` und `css/recht.css?v=`) überall dieselbe Zahl um eins erhöhen. Sonst zeigen iPads noch eine Weile die alte Liste aus dem Zwischenspeicher.
 6. **Prüfen:** `py tests/pruefen.py` laufen lassen und die Seite einmal hoch und einmal quer ansehen.
 
-Im Querformat stehen bis zu drei Stationen nebeneinander (ab drei werden die Fenster etwas kleiner). Weitere Stationen und der Platzhalter füllen die Reihe darunter. Ist die letzte Dreierreihe voll, steht der Platzhalter allein in einer eigenen Reihe.
+Die Stationen stehen nach Fächern geordnet: Über jeder Gruppe steht eine Überschrift, darunter die Fenster des Fachs (quer drei nebeneinander, iPad hoch zwei, Handy eins). Der Platzhalter steht allein ganz unten.
+
+**Neues Fach:** In `js/plattformen.js` oben in der Liste `faecher` einen Eintrag mit `id`, `name` (Überschrift) und `farbe` (Leuchtpunkt in der Überschrift und unter den Stationsnamen) ergänzen. Die Reihenfolge der Liste ist die Reihenfolge der Abschnitte. Ein Fach ohne Station wird nicht angezeigt.
 
 ## Test
 
