@@ -198,6 +198,21 @@ export const plattformen = [
     status: 'live',
   },
   {
+    id: 'abyss-of-numbers',
+    name: 'Abyss of Numbers',
+    beschreibung: 'Rechne dich in die Tiefe',
+    url: 'https://setsna.github.io/abyss-of-numbers/',
+    bild: {
+      webp: 'assets/stationen/abyss-of-numbers.webp',
+      png: 'assets/stationen/abyss-of-numbers.png',
+      alt: 'Eine Taucherin im gelben Anzug mit Stirnlampe taucht in eine Unterwasserschlucht mit alten Säulen, vor ihr leuchten die Ziffern 3, 7 und 5.',
+      hoehe: 720,
+      abstandUnten: 10,
+    },
+    akzent: '#4fd1c5',
+    status: 'live',
+  },
+  {
     id: 'neue-station',
     name: 'Neue Station',
     beschreibung: 'taucht bald auf',
