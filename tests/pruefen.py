@@ -2,7 +2,8 @@
 
 Aufruf im Projektordner:  py tests/pruefen.py
 Prüft: interne Dateien vorhanden, keine fremden Skripte/Stile,
-CSP gesetzt, Ziel-URLs der Plattformen erreichbar, Ladegröße.
+CSP gesetzt, genau eine Abfrage nach außen (Freigabe der Stationen),
+Ziel-URLs der Plattformen erreichbar, Ladegröße.
 """
 import re
 import sys
@@ -53,8 +54,35 @@ for nebenseite in ('datenschutz.html', 'impressum.html'):
     (ok if '<meta name="robots" content="noindex, nofollow">' in t else fehlt)(f'{nebenseite}: noindex, nofollow')
 js = (WURZEL / 'js' / 'lagune.js').read_text(encoding='utf-8')
 (ok if "noopener noreferrer" in js else fehlt)('externe Links mit noopener noreferrer')
-for wort in ('localStorage', 'document.cookie', 'fetch(', 'XMLHttpRequest'):
+for wort in ('localStorage', 'sessionStorage', 'document.cookie', 'XMLHttpRequest', 'sendBeacon', 'WebSocket'):
     (fehlt if wort in js + konfig else ok)(f'kein {wort}')
+
+print('2b. Genau eine Abfrage nach außen: die Freigabe der Stationen')
+# Erlaubt ist nur das öffentliche Dokument mit der Freigabe-Liste (keine Kinderdaten).
+FREIGABE = ('https://firestore.googleapis.com/v1/projects/lernplattform-44aa1/'
+            'databases/(default)/documents/oeffentlich/plattformen')
+CSP_ZIEL = 'https://firestore.googleapis.com/v1/projects/lernplattform-44aa1/'
+(ok if (js + konfig).count('fetch(') == 1 else fehlt)('genau ein fetch( im Code')
+(ok if 'fetch(FREIGABE_ADRESSE,' in js else fehlt)('fetch geht an FREIGABE_ADRESSE')
+fremde = set(re.findall(r"https?://[^'\"\s]+", js)) - {'http://www.w3.org/2000/svg'}
+(ok if fremde == {FREIGABE} else fehlt)('einzige fremde Adresse im Skript: ' + ', '.join(sorted(fremde)))
+for wort in ("credentials: 'omit'", "cache: 'no-store'", "referrerPolicy: 'no-referrer'", 'signal:'):
+    (ok if wort in js else fehlt)(f'Abfrage mit {wort}')
+csp = re.search(r'Content-Security-Policy" content="([^"]+)"', html)
+ziele = re.search(r'connect-src ([^;]+)', csp.group(1)).group(1).split() if csp else []
+(ok if ziele == [CSP_ZIEL] else fehlt)('CSP connect-src nur: ' + ' '.join(ziele))
+for nebenseite in ('datenschutz.html', 'impressum.html'):
+    t = (WURZEL / nebenseite).read_text(encoding='utf-8')
+    (ok if "connect-src 'none'" in t else fehlt)(f"{nebenseite}: connect-src 'none'")
+(ok if 'Firebase' in (WURZEL / 'datenschutz.html').read_text(encoding='utf-8') else fehlt)('datenschutz.html nennt die Abfrage (Firebase)')
+try:
+    anfrage = urllib.request.Request(FREIGABE, headers={'User-Agent': 'Lernlagune-Linktest'})
+    with urllib.request.urlopen(anfrage, timeout=15) as antwort:
+        (ok if antwort.status == 200 else fehlt)(f'Freigabe-Liste erreichbar -> {antwort.status}')
+except Exception as e:  # noqa: BLE001
+    fehlt(f'Freigabe-Liste -> {e}')
+schluessel = re.findall(r"freigabe:\s*'([^']+)'", konfig)
+(ok if len(schluessel) == len(set(schluessel)) else fehlt)(f'{len(schluessel)} Freigabe-Namen, keiner doppelt')
 
 print('3. Ziel-URLs der Plattformen')
 for url in re.findall(r"url:\s*'([^']+)'", konfig):

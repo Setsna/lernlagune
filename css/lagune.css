@@ -485,6 +485,45 @@ a.fenster:focus-visible {
   outline-offset: 6px;
 }
 
+/* ── Gesperrte Station: Schild „Bald offen“ statt Pfeilknopf ──
+ * Die Lehrkraft hat die Station noch nicht freigegeben. Das Bild bleibt
+ * farbig, das Fenster ist kein Link. Das Schild ist kleiner als der Knopf
+ * und trägt ein Schloss, damit es nicht wie eine Taste aussieht. */
+.fenster--zu {
+  cursor: default;
+}
+
+.fenster__schild {
+  position: absolute;
+  left: 50%;
+  bottom: calc(50 * var(--s));
+  display: flex;
+  align-items: center;
+  gap: max(7px, calc(11 * var(--s)));
+  height: max(34px, calc(56 * var(--s)));
+  padding: 0 max(15px, calc(26 * var(--s))) 0 max(13px, calc(22 * var(--s)));
+  border-radius: 999px;
+  background: var(--weiss);
+  color: var(--navy);
+  font-size: max(15px, calc(23 * var(--s)));
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 10px 22px -6px rgba(3, 20, 35, 0.5);
+  transform: translateX(-50%);
+}
+
+.fenster__schild-schloss {
+  flex: none;
+  width: max(12px, calc(18 * var(--s)));
+  height: max(16px, calc(24 * var(--s)));
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* ── Platzhalter: kleines, nebliges Fenster ────────────── */
 .stationen--bald {
   margin-top: calc(60 * var(--s));

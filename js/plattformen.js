@@ -21,6 +21,10 @@
  *                 sitzt (Standard 70; kleiner = Bild rutscht tiefer)
  *                 (Bild 720 px breit, Motiv unten, oben ruhiges Wasser)
  *   fach          id eines Fachs aus der Liste oben
+ *   freigabe      optional: Name der Plattform im Lehrerbereich des Perlentauchers
+ *                 (Verwaltung, Reiter „Plattformen“). Ist sie dort gesperrt, zeigt
+ *                 das Fenster das Schild „Bald offen“ und ist nicht antippbar.
+ *                 Ohne dieses Feld ist die Station immer offen.
  *   status        "live" = antippbar, "bald" = kleines nebliges Fenster
  */
 export const faecher = [
@@ -43,6 +47,7 @@ export const plattformen = [
       abstandUnten: 115,
     },
     fach: 'mathe',
+    freigabe: 'zahlenschwarm',
     status: 'live',
   },
   {
@@ -58,6 +63,7 @@ export const plattformen = [
       abstandUnten: 70,
     },
     fach: 'mathe',
+    freigabe: 'seesternwerkstatt',
     status: 'live',
   },
   {
@@ -73,6 +79,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'mathe',
+    freigabe: 'chancenbucht',
     status: 'live',
   },
   {
@@ -88,6 +95,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'mathe',
+    freigabe: 'kieselwaage',
     status: 'live',
   },
   {
@@ -103,6 +111,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'mathe',
+    freigabe: 'leuchtturmuhr',
     status: 'live',
   },
   {
@@ -118,6 +127,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'mathe',
+    freigabe: 'abyss',
     status: 'live',
   },
   {
@@ -148,6 +158,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'deutsch',
+    freigabe: 'walgesang',
     status: 'live',
   },
   {
@@ -163,6 +174,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'deutsch',
+    freigabe: 'zeitenstrom',
     status: 'live',
   },
   {
@@ -178,6 +190,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'deutsch',
+    freigabe: 'satzwerft',
     status: 'live',
   },
   {
@@ -193,6 +206,7 @@ export const plattformen = [
       abstandUnten: 115,
     },
     fach: 'deutsch',
+    freigabe: 'riffakten',
     status: 'live',
   },
   {
@@ -208,6 +222,7 @@ export const plattformen = [
       abstandUnten: 10,
     },
     fach: 'medien',
+    freigabe: 'korallenriff',
     status: 'live',
   },
   {
@@ -223,6 +238,7 @@ export const plattformen = [
       abstandUnten: 105,
     },
     fach: 'medien',
+    freigabe: 'flaschenpost',
     status: 'live',
   },
   {

@@ -192,6 +192,9 @@ Ein Schild aus Nebelglas über jeder Gruppe: Libre Caslon 44 (mindestens 22 px),
 ### Pfeil-Knopf
 Weißer Kreis, `max(48px, 84 * --s)`, Navy-Pfeil aus Inline-SVG-Symbol (Strich 2, rund). Er ist Zeichen, kein eigenes Ziel: das ganze Fenster ist der Link.
 
+### Schild „Bald offen“ (gesperrte Station)
+Hat die Lehrkraft eine Station gesperrt, bleibt das Glasfenster wie es ist, mit farbigem Bild, ist aber kein Link mehr. An der Stelle des Pfeil-Knopfs steht ein weißes, ganz rundes Schild: Schloss (Inline-SVG `schloss-zu`, Strich 2.4) und „Bald offen“ in Andika 700, Navy, 23 (mindestens 15 px). Höhe `max(34px, 56 * --s)`, also deutlich kleiner als der Knopf, damit es nicht wie eine Taste aussieht. Neutraler Tiefenschatten, kein Lichtschein. Kein Abdunkeln, kein Kippen, kein `:active`. Der Zustand kommt beim Laden aus einer Abfrage (README, „Stationen sperren und freigeben“); bis die Antwort da ist, sind alle Fenster offen.
+
 ### Platzhalter („Neue Station – taucht bald auf“)
 Kleineres, nebliges Fenster mit dunkler Tönung (`nebel`, Blur 5 px), Schloss-Symbol (Inline-SVG, Strich 1.6) und zweizeiligem Label. Nicht antippbar, kein Pfeil, keine Lesetiefe.
 
@@ -222,7 +225,7 @@ Die `farbe` des Fachs färbt den leuchtenden Punkt in der Fach-Überschrift und 
 - **Do** das ganze Fenster zum Link machen und Rückmeldung über `:active` geben.
 - **Do** Navy-Text nur im Lichtschacht oder mit hellem Lichthof dahinter setzen.
 - **Do** neue Endlosbewegung pausierbar machen (`lagune--ruht`) und unter `prefers-reduced-motion` abschalten.
-- **Do** Schriften, Bilder und Symbole selbst hosten; die CSP erlaubt nur `'self'`.
+- **Do** Schriften, Bilder und Symbole selbst hosten; die CSP erlaubt nur `'self'` und die eine Abfrage zur Freigabe der Stationen.
 
 ### Don't:
 - **Don't** SVG-Refraktion oder Displacement-Filter als Grundlage einsetzen; das iPad muss mit Blur allein gut aussehen.

@@ -1,6 +1,17 @@
-import { faecher, plattformen } from './plattformen.js?v=9';
+import { faecher, plattformen } from './plattformen.js?v=10';
 
 const ort = document.getElementById('stationen');
+
+/* Freigabe der Stationen: Die Lehrkraft schaltet sie im Lehrerbereich des
+   Perlentauchers an und aus. Die Liste liegt in einem öffentlich lesbaren
+   Dokument ohne Kinderdaten. Das ist die einzige Abfrage dieser Seite nach
+   außen (siehe Content-Security-Policy in index.html und datenschutz.html). */
+const FREIGABE_ADRESSE =
+  'https://firestore.googleapis.com/v1/projects/lernplattform-44aa1/databases/(default)/documents/oeffentlich/plattformen';
+const FREIGABE_WARTEZEIT = 4000; // Millisekunden, danach bleibt alles offen
+
+/* Fenster je Freigabe-Name, damit die Antwort die richtige Station findet */
+const fensterJeFreigabe = new Map();
 
 /* Nur sichere Ziel-Adressen zulassen. */
 function sichereUrl(url) {
@@ -69,7 +80,48 @@ function liveStation(p, fach) {
 
   a.append(titel, linie, text, bild, knopf);
   li.append(a);
+  if (p.freigabe) fensterJeFreigabe.set(p.freigabe, a);
   return li;
+}
+
+/* Gesperrte Station: gleiches Fenster, aber kein Link mehr. Statt des
+   Pfeilknopfs steht ein kleines Schild „Bald offen“. */
+function sperreStation(a) {
+  const box = element('div', 'fenster fenster--zu');
+  box.style.cssText = a.style.cssText;
+  a.querySelector('.fenster__knopf')?.remove();
+  const schild = element('span', 'fenster__schild');
+  schild.append(symbol('schloss-zu', 'fenster__schild-schloss'), element('span', '', 'Bald offen'));
+  box.append(...a.childNodes, schild);
+  a.replaceWith(box);
+}
+
+/* Fragt einmal beim Laden, welche Stationen gesperrt sind. Gesperrt ist eine
+   Station nur, wenn die Antwort ausdrücklich „false“ sagt. Bei jedem Fehler
+   (kein Netz, Zeit abgelaufen, Dokument fehlt) bleibt alles offen, damit der
+   Unterricht nicht steht. Es wird nichts gespeichert und nichts mitgeschickt. */
+async function freigabePruefen() {
+  if (!fensterJeFreigabe.size || !('AbortController' in window)) return;
+  const abbruch = new AbortController();
+  const uhr = setTimeout(() => abbruch.abort(), FREIGABE_WARTEZEIT);
+  try {
+    const antwort = await fetch(FREIGABE_ADRESSE, {
+      credentials: 'omit',
+      cache: 'no-store',
+      referrerPolicy: 'no-referrer',
+      signal: abbruch.signal,
+    });
+    if (!antwort.ok) return;
+    const felder = (await antwort.json())?.fields;
+    if (!felder || typeof felder !== 'object') return;
+    for (const [name, a] of fensterJeFreigabe) {
+      if (felder[name]?.booleanValue === false) sperreStation(a);
+    }
+  } catch {
+    /* alles bleibt offen */
+  } finally {
+    clearTimeout(uhr);
+  }
 }
 
 function baldStation(p) {
@@ -158,4 +210,5 @@ function breiteMessen() {
 
 breiteMessen();
 baueStationen();
+freigabePruefen();
 bewegungNurSichtbar();
